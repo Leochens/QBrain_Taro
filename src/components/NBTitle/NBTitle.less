@@ -1,0 +1,20 @@
+.title {
+    width     : 235px;
+    height    : 66px;
+    background: rgba(27, 124, 213, 1);
+    position  : relative;
+    color: white;
+    text-align: center;
+    line-height: 66px;
+}
+
+.title::before {
+    content : '';
+    display : block;
+    width   : 235px;
+    height  : 66px;
+    border  : 5px solid rgba(27, 124, 213, 1);
+    position: absolute;
+    top     : 4px;
+    left    : 4px;
+}
