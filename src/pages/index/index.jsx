@@ -1,11 +1,12 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
-import { setSid } from '../../actions/user'
+import { setSid, setUserInfo } from '../../actions/user'
 import { AtButton } from 'taro-ui'
 import { appConfig } from '../../config'
 const apiBaseUrl = appConfig.apiBaseUrl;
 import './index.less'
+
 
 
 @connect(({ user }) => ({
@@ -14,12 +15,9 @@ import './index.less'
   setSid(sid) {
     dispatch(setSid(sid))
   },
-  // dec() {
-  //   dispatch(minus())
-  // },
-  // asyncAdd() {
-  //   dispatch(asyncAdd())
-  // }
+  setUserInfo(userInfo) {
+    dispatch(setUserInfo(userInfo))
+  }
 }))
 class Index extends Component {
 
@@ -31,19 +29,39 @@ class Index extends Component {
     console.log(this.props, nextProps)
   }
 
-  componentWillUnmount() { }
+  // componentWillUnmount() { }
 
-  componentDidShow() { }
+  // componentDidShow() { }
 
-  componentDidHide() { }
-
+  // componentDidHide() { }
+  getUserInfo = () => {
+    const that = this;
+    Taro.getUserInfo({
+      success: res => {
+        console.log(res.userInfo);
+        that.props.setUserInfo(res.userInfo);
+        Taro.request({
+          url: apiBaseUrl + '/profile',
+          method: "POST",
+          header: {
+            'content-type': 'application/json', // 默认值
+            "cookie": that.props.user.SID
+          },
+          data: {
+            profile: res.userInfo
+          },
+          success: r => console.log(r),
+          fail: e => console.log(e)
+        })
+      }
+    })
+  }
   getPhoneNumber = e => {
     console.log(e);
     const that = this;
-
     const { encryptedData, iv } = e.detail;
     Taro.request({
-      url: apiBaseUrl + '/encrydata',
+      url: apiBaseUrl + '/number',
       method: "POST",
       header: {
         'content-type': 'application/json', // 默认值
@@ -62,16 +80,13 @@ class Index extends Component {
       }
     })
   }
+
   onLogin = () => {
     const that = this;
     Taro.checkSession({
       success: function () {
         if (Taro.getStorageSync('SID')) // 看看是否存在会话ID
-          Taro.getUserInfo({
-            success: res => {
-              console.log(res);
-            }
-          })
+          console.log("本地有SID");
         else {
           console.log("微信skey未过期但本地未存储,故需重新登录获取")
           that.login();
@@ -79,11 +94,9 @@ class Index extends Component {
       },
       fail: function () {// 检查失败 过期了 需要重新登录
         console.log("微信skey过期,需重新登录")
-
         that.login();
       }
     })
-
   }
   login = () => {
     const that = this;
@@ -121,23 +134,10 @@ class Index extends Component {
             url: '/pages/test/test'
           })
         }}>测试页</AtButton>
-        <AtButton openType="getUserInfo" onGetUserInfo={e => console.log(JSON.parse(e.detail.rawData))}>让用户授权登录</AtButton>
+        <AtButton openType="getUserInfo" onGetUserInfo={e => console.log(JSON.parse(e.detail.rawData))}>用户授权信息</AtButton>
         <AtButton type='primary' onClick={this.onLogin}> 测试登录 </AtButton>
         <AtButton openType="getPhoneNumber" onGetPhoneNumber={this.getPhoneNumber}>获取电话号码</AtButton>
-        <AtButton type='primary' onClick={() =>
-          Taro.getUserInfo({
-            success: function (res) {
-              var userInfo = res.userInfo
-              var nickName = userInfo.nickName
-              var avatarUrl = userInfo.avatarUrl
-              var gender = userInfo.gender //性别 0：未知、1：男、2：女
-              var province = userInfo.province
-              var city = userInfo.city
-              var country = userInfo.country
-
-              console.log(userInfo);
-            }
-          })}> 测试获取信息 </AtButton>
+        <AtButton type='primary' onClick={this.getUserInfo}> 测试获取信息 </AtButton>
 
         <View><Text>Hello, World</Text></View>
       </View >
