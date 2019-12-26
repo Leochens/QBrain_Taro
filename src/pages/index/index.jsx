@@ -58,9 +58,28 @@ class Test extends Component {
             <AtIcon className="icon" value="chevron-right" />
           </View>
         </View>
-        <View className='at-col '>
-          <View className="at-row des">
+        <View className='at-col detail'>
+          <View className="at-col des">
             <NBTitle>专业评测团队</NBTitle>
+            <View className="text">
+              <View>北师大背景，国家xxx项目
+</View>
+            </View>
+          </View>
+          <View className="at-col des">
+            <NBTitle>项目背景</NBTitle>
+            <View className="text">
+              <View>李开复推荐</View>
+              <View>创始人背景 </View>
+              <View>技术总监背景</View>
+              <View>全球化视野</View>
+            </View>
+          </View>
+          <View className="at-col des">
+            <NBTitle>合作伙伴</NBTitle>
+            <View className="partner">
+
+            </View>
           </View>
         </View>
       </View>
