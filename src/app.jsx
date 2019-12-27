@@ -20,7 +20,9 @@ class App extends Component {
 
   config = {
     pages: [
+      'pages/prod/prod',
       'pages/index/index',
+      'pages/me/me',
       'pages/test/test'
     ],
     window: {
@@ -29,7 +31,26 @@ class App extends Component {
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'white',
       navigationStyle: 'custom'
-    }
+    },
+    tabBar: {
+      list: [{
+        pagePath: "pages/index/index",
+        text: "首页",
+        // iconPath: ''
+      }, {
+        pagePath: "pages/prod/prod",
+        text: "产品",
+        // iconPath: ''
+      },
+      {
+        pagePath: "pages/me/me",
+        text: "我的",
+        // iconPath: ''
+      }]
+    },
+    navigateToMiniProgramAppIdList: [
+      // "wxe5f52902cf4de896"
+    ]
   }
 
   componentDidMount() { }

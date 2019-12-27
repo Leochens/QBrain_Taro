@@ -54,7 +54,7 @@ class Test extends Component {
             <View className="des">AI筛查精准定位大脑健康状况
 </View>
           </View>
-          <View className="at-col at-col-1">
+          <View className="at-col">
             <AtIcon className="icon" value="chevron-right" />
           </View>
         </View>
