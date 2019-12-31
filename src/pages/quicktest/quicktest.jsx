@@ -63,7 +63,6 @@ export default class QuickTest extends Component {
                             percent={((index + 1) / qlist.length) * 100}
                             isHidePercent strokeWidth={10} />
                         <View>{index + 1}/{qlist.length} {score}</View>
-
                     </View>
                 </View>
             )
@@ -72,8 +71,8 @@ export default class QuickTest extends Component {
         return <View style={{
             textAlign: 'center'
         }}>答题结束 分数为{score} {score >= 2 ? '您有认知障碍' : "您没有认知障碍"}
-            {/* <CircleProgress /> */}
-            <Button onClick={this.back}>返回主页</Button>
+            <CircleProgress score={score} progress={score / 8} detail={score >= 2 ? "重度" : "健康"} color={score >= 2 ? 'rgb(229,21,22)' : 'rgb(14,207,175)'} />
+            {/* <Button onClick={this.back}>返回主页</Button> */}
         </View>
     }
 

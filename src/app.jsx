@@ -69,7 +69,9 @@ class App extends Component {
         console.log(res.platform)
         that.state = {
           statusBarHeight: res.statusBarHeight,
-          nav: Taro.getMenuButtonBoundingClientRect()
+          nav: Taro.getMenuButtonBoundingClientRect(),
+          windowWidth: res.windowWidth,
+          windowHeight: res.windowHeight
         }
       }
     })

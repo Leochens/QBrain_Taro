@@ -1,45 +1,99 @@
-.wrap{
-    position: relative;
-}
-.circle {
-    height          : 300px;
-    width           : 300px;
-    background-color: transparent;
-    border          : 24px solid;
-    color           : rgb(230, 37, 45);
-    border-color    : rgb(230, 37, 45);
-    border-radius   : 50%;
-    z-index         : -1;
-    position        : absolute;
-    clip            : rect(0px 348px 290px 0px)
-}
-
-.grey{
-    border-color: grey;
-    bottom: -100px;
-    clip            : rect(0px 348px 290px 0px)
-
-}
-// .circle::before {
-//     content         : "";
-//     display         : block;
-//     position        : absolute;
-//     background-color: currentColor;
-//     width           : 24px;
-//     height          : 24px;
+// .wrap{
+//     position: relative;
+// }
+// .circle {
+//     height          : 300px;
+//     width           : 300px;
+//     background-color: transparent;
+//     border          : 24px solid;
+//     color           : rgb(230, 37, 45);
+//     border-color    : rgb(230, 37, 45);
 //     border-radius   : 50%;
-//     bottom: 0;
-//     left: 0;
+//     z-index         : -1;
+//     position        : absolute;
+//     clip            : rect(0px 348px 290px 0px)
 // }
 
-// .circle::after {
-//     content         : "";
-//     display         : block;
-//     position        : absolute;
-//     background-color: currentColor;
-//     width           : 24px;
-//     height          : 24px;
-//     border-radius   : 50%;
-//     bottom: 100px;
-//     right: 0;
+// .grey{
+//     border-color    : grey;
+//     bottom          : -100px;
+//     clip            : rect(0px 348px 290px 0px)
 // }
+// // .circle::before {
+// //     content         : "";
+// //     display         : block;
+// //     position        : absolute;
+// //     background-color: currentColor;
+// //     width           : 24px;
+// //     height          : 24px;
+// //     border-radius   : 50%;
+// //     bottom          : 0;
+// //     left            : 0;
+// // }
+
+// // .circle::after {
+// //     content         : "";
+// //     display         : block;
+// //     position        : absolute;
+// //     background-color: currentColor;
+// //     width           : 24px;
+// //     height          : 24px;
+// //     border-radius   : 50%;
+// //     bottom          : 100px;
+// //     right           : 0;
+// // }
+
+
+.cir {
+    display   : inline-block;
+    margin-top: 20rpx;
+
+}
+
+.top {
+    text-align: center;
+    position  : relative;
+    width     : 100vw;
+    height    : 460px;
+}
+
+.title {
+    width      : 165px;
+    margin     : auto;
+    height     : 42px;
+    font-size  : 30px;
+    font-weight: 400;
+    color      : rgba(68, 68, 68, 1);
+    line-height: 42px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 155px;
+}
+
+.score {
+    margin     : auto;
+    width      : 251px;
+    height     : 126px;
+    font-size  : 90px;
+    font-weight: 500;
+    line-height: 126px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 230px;
+
+}
+
+.cc {
+    margin       : auto;
+    position     : absolute;
+    bottom       : 0;
+    left         : 0;
+    right        : 0;
+    width        : 176px;
+    height       : 46px;
+    line-height  : 46px;
+    color        : white;
+    border-radius: 23px;
+}
