@@ -13,21 +13,10 @@ export default class Prod extends Component {
 
     constructor(props) {
         super(props);
-        const that = this;
-        Taro.getSystemInfo({
-            success: function (res) {
-                console.log(res.model)
-                console.log(res.pixelRatio)
-                console.log(res.windowWidth)
-                console.log(res.windowHeight)
-                console.log(res.language)
-                console.log(res.version)
-                console.log(res.platform)
-                that.state = {
-                    statusBarHeight: res.statusBarHeight
-                }
-            }
-        })
+        const app = Taro.getApp();
+        this.state ={
+            statusBarHeight:app.state.statusBarHeight
+        }
     }
     render() {
         return <View>

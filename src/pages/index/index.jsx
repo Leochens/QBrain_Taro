@@ -21,7 +21,12 @@ class Test extends Component {
   componentDidShow() { }
 
   componentDidHide() { }
-
+  toQuickTest = () => {
+    console.log("??")
+    Taro.navigateTo({
+      url: '/pages/quicktest/quicktest'
+    })
+  }
   render() {
     return (
       <View className='at-col'>
@@ -36,11 +41,11 @@ class Test extends Component {
                 <Button circle className="btn">去评测</Button>
               </View>
               <View className="at-col at-col-6 at-col__offset-1 banner-item">
-                <View className="title">快速评定</View>
+                <View className="title" >快速评定</View>
                 <View className="des1">10道题目</View>
                 <View className="des2">预计时间5分钟
 </View>
-                <Button className="btn">去评测</Button>
+                <Button className="btn" onClick={this.toQuickTest}>去评测</Button>
               </View>
             </View>
           </View>

@@ -5,6 +5,7 @@ import Test from './pages/test/test'
 import Index from './pages/index/index'
 import configStore from './store'
 
+import 'animate.css'
 import './app.less'
 // import 'taro-ui/dist/style/index.scss' 
 import './custom.scss'
@@ -20,10 +21,11 @@ class App extends Component {
 
   config = {
     pages: [
-      'pages/prod/prod',
       'pages/index/index',
+      'pages/quicktest/quicktest',
+      'pages/prod/prod',
       'pages/me/me',
-      'pages/test/test'
+      'pages/test/test',
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -53,7 +55,26 @@ class App extends Component {
     ]
   }
 
-  componentDidMount() { }
+  constructor(props) {
+    super(props)
+    const that = this;
+    Taro.getSystemInfo({
+      success: function (res) {
+        console.log(res.model)
+        console.log(res.pixelRatio)
+        console.log(res.windowWidth)
+        console.log(res.windowHeight)
+        console.log(res.language)
+        console.log(res.version)
+        console.log(res.platform)
+        that.state = {
+          statusBarHeight: res.statusBarHeight,
+          nav: Taro.getMenuButtonBoundingClientRect()
+        }
+      }
+    })
+
+  }
 
   componentDidShow() { }
 
