@@ -27,6 +27,7 @@ export default class QuickTest extends Component {
             score: 0
         }
     }
+
     handleClickOption = e => {
         // console.log(e.target.dataset.w)˝
         const { index, score } = this.state;
@@ -68,11 +69,26 @@ export default class QuickTest extends Component {
             )
 
         }
-        return <View style={{
-            textAlign: 'center'
-        }}>答题结束 分数为{score} {score >= 2 ? '您有认知障碍' : "您没有认知障碍"}
-            <CircleProgress score={score} progress={score / 8} detail={score >= 2 ? "重度" : "健康"} color={score >= 2 ? 'rgb(229,21,22)' : 'rgb(14,207,175)'} />
-            {/* <Button onClick={this.back}>返回主页</Button> */}
+        const res = score >= 2 ? "重度" : "健康";
+        const color = score >= 2 ? 'rgb(229,21,22)' : 'rgb(14,207,175)';
+        return <View>
+            {/* 答题结束 分数为{score} {score >= 2 ? '您有认知障碍' : "您没有认知障碍"} */}
+            <CircleProgress score={score} progress={score / 8} detail={res} color={color} />
+            <View className="tip">您的评测结果为：</View>
+            <View className="res" style={{
+                color: color
+            }}>{res}</View>
+            <View className="ljzn">量健智能提醒您：</View>
+            <View className="advice">{res == '健康'
+                ? '保持良好的生活习惯，有利于维持当前的健康状况'
+                : '该测试显示您有认知功能丧失的风险，建议您做完整测评，或选择脑健康体检进一步筛查风险。'}</View>
+            <View className='at-row appointment'>
+                <View className="at-col at-col-11">
+                    <View className="ap-title">预约脑体检</View>
+                    <View className="des">AI筛查精准定位大脑健康状况</View>
+                </View>
+            </View>
+            <Button>返回主页</Button>
         </View>
     }
 

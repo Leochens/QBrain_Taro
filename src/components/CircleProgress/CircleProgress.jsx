@@ -42,15 +42,15 @@ export default class CircleProgress extends Component {
     render() {
         return <view class="wrap">
             <view class="top">
-                <canvas class="cir" style="width:280px; height:280px;" canvas-id="canvasArc">
+                <canvas class="cir" style="width:280px; height:250px;" canvas-id="canvasArc">
                 </canvas>
                 <View className="title">风险评分</View>
                 <View className="score" style={{ color: this.props.color }}>{this.props.score}</View>
-                <View className="cc" style={{
-                    backgroundColor: this.props.color
-                }}>{this.props.detail}</View>
 
             </view>
+            <View className="cc" style={{
+                backgroundColor: this.props.color
+            }}>{this.props.detail}</View>
         </view>
     }
 }
