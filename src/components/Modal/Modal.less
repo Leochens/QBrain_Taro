@@ -1,0 +1,53 @@
+.mask {
+    position        : fixed;
+    top             : 0;
+    left            : 0;
+    right           : 0;
+    bottom          : 0;
+    background-color: rgba(0, 0, 0, 0.7);
+
+}
+
+.modal {
+    position        : absolute;
+    bottom          : 0;
+    left            : 0;
+    right           : 0;
+    padding         : 20px 0 50px 0;
+    background-color: #fff;
+
+    .title {
+        font-size : 46px;
+        text-align: center;
+        margin    : 20px;
+    }
+
+    .content {
+        display        : flex;
+        justify-content: space-around;
+        text-align     : center;
+
+        .city {
+            margin   : 20px;
+            font-size: 32px;
+        }
+
+        .list {
+            .item {
+                margin: 20px;
+
+                .name {
+                    font-size  : 28px;
+                    font-weight: 500;
+
+                }
+
+                .address {
+                    color    : #666;
+                    font-size: 24px;
+                }
+            }
+        }
+    }
+
+}

@@ -4,6 +4,7 @@ import { View, Button, Text } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import './prod.less'
 import { AtIcon, AtList, AtListItem } from 'taro-ui';
+import Modal from '../../components/Modal/Modal';
 export default class Prod extends Component {
     config = {
         navigationBarTitleText: '产品',
@@ -14,10 +15,18 @@ export default class Prod extends Component {
     constructor(props) {
         super(props);
         const app = Taro.getApp();
-        this.state ={
-            statusBarHeight:app.state.statusBarHeight
+        this.state = {
+            statusBarHeight: app.state.statusBarHeight,
+            showModal: false
         }
     }
+
+    toggleShowModal = () => {
+        this.setState({
+            showModal: !this.state.showModal
+        })
+    }
+
     render() {
         return <View>
             <View style={{
@@ -75,7 +84,7 @@ export default class Prod extends Component {
                         </View>
                     </View>
                 </View>
-                <View className="have-a-look">
+                <View className="have-a-look" onClick={this.toggleShowModal}>
                     <View className="des">查看可预约分院和机构</View>
                     <AtIcon value="chevron-right icon" />
                 </View>
@@ -148,6 +157,7 @@ export default class Prod extends Component {
                 </View>
             </View>
 
+            <Modal showModal={this.state.showModal} hide={this.toggleShowModal} />
         </View>
     }
 }
