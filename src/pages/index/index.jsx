@@ -19,10 +19,13 @@ class Test extends Component {
   componentWillUnmount() { }
 
   componentDidShow() { }
-
   componentDidHide() { }
+  gotoAppointment() {
+    Taro.navigateTo({
+      url: '/pages/appointment/appointment'
+    })
+  }
   toQuickTest = () => {
-    console.log("??")
     Taro.navigateTo({
       url: '/pages/quicktest/quicktest'
     })
@@ -52,7 +55,7 @@ class Test extends Component {
 
 
         </View>
-        <View className='at-row appointment'>
+        <View className='at-row appointment' onClick={this.gotoAppointment}>
           <View className="at-col at-col-11">
             <View className="title">预约脑体检
 </View>

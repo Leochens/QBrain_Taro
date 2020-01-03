@@ -39,6 +39,11 @@ export default class QuickTest extends Component {
     back = () => {
         Taro.navigateBack()
     }
+    gotoAppointment() {
+        Taro.navigateTo({
+            url: '/pages/appointment/appointment'
+        })
+    }
     renderQList = () => {
         const { index, qlist, score } = this.state;
         const tmp = qlist[index];
@@ -82,7 +87,7 @@ export default class QuickTest extends Component {
             <View className="advice">{res == '健康'
                 ? '保持良好的生活习惯，有利于维持当前的健康状况'
                 : '该测试显示您有认知功能丧失的风险，建议您做完整测评，或选择脑健康体检进一步筛查风险。'}</View>
-            <View className='at-row appointment'>
+            <View className='at-row appointment' onClick={this.gotoAppointment}>
                 <View className="at-col at-col-11">
                     <View className="ap-title">预约脑体检</View>
                     <View className="des">AI筛查精准定位大脑健康状况</View>
