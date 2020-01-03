@@ -25,8 +25,6 @@ export default class Modal extends Component {
                         </View>
                     </View>
                 </View>
-
-
             </View>
         </View>
     }

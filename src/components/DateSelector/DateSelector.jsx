@@ -1,10 +1,12 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
-import { AtCalendar } from "taro-ui"
+import { AtCalendar, AtModal, AtModalHeader, AtModalContent, AtModalAction } from "taro-ui"
 
 import './DateSelector.less'
 import '../../custom.scss';
+import GenModal from '../GenModal/GenModal';
 // const app = Taro.getApp();
+
 export default class DateSelector extends Component {
 
 
@@ -12,7 +14,7 @@ export default class DateSelector extends Component {
     state = {
         index: 0,
         showCalendar: false,
-        dates: [`${this.getNextDate(new Date(), 1)}`, `${this.getNextDate(new Date(), 2)}`, this.getNextDate(new Date(), 3), `选择日期`]
+        dates: this.getNextThreeDate().concat([`选择日期`])
     }
     componentDidMount() {
         const { onChangeDate } = this.props;
@@ -28,6 +30,7 @@ export default class DateSelector extends Component {
         console.log(res);
         return res;
     }
+
     getNextDate(date, day) {
         const dd = new Date(date);
         dd.setDate(dd.getDate() + day);
@@ -36,7 +39,29 @@ export default class DateSelector extends Component {
         const d = dd.getDate() < 10 ? "0" + dd.getDate() : dd.getDate();
         return y + '-' + m + "-" + d;
     };
-
+    getNextThreeDate() {
+        const dd = new Date();
+        const y = dd.getFullYear();
+        const m = dd.getMonth() + 1 < 10 ? "0" + (dd.getMonth() + 1) : dd.getMonth() + 1;
+        const d = dd.getDate() < 10 ? "0" + dd.getDate() : dd.getDate();
+        const date = y + '-' + m + "-" + d;
+        if ([0, 1, 2].includes(dd.getDay())) { // 周日 周一 周二 可以顺延三天
+            return [1, 2, 3].map(d => this.getNextDate(date, d));
+        } else if (dd.getDay() === 3) { // 周三
+            return [1, 2, 5].map(d => this.getNextDate(date, d));
+        } else if (dd.getDay() === 4) { // 周四
+            return [1, 4, 5].map(d => this.getNextDate(date, d));
+        } else if (dd.getDay() === 5) { // 周五
+            return [3, 4, 5].map(d => this.getNextDate(date, d));
+        } else { // 周六
+            return [2, 3, 4].map(d => this.getNextDate(date, d));
+        }
+    };
+    hide = () => {
+        this.setState({
+            showCalendar: false
+        })
+    }
     selectDate(e) {
         const { onChangeDate } = this.props;
         const { id } = e.target.dataset;
@@ -49,8 +74,6 @@ export default class DateSelector extends Component {
             })
             // callback
             onChangeDate && onChangeDate(this.state.dates[0]);
-
-
         } else {
             this.setState({
                 showCalendar: false
@@ -58,11 +81,27 @@ export default class DateSelector extends Component {
             // callback
             onChangeDate && onChangeDate(this.state.dates[id]);
         }
-
+    }
+    isWeekend = (date) => {
+        // const _d = date.split('/').join('-');
+        const d = new Date(date);
+        const flag = d.getDay();
+        return (flag === 0 || flag === 6)
     }
     handelSelectDate = e => {
         // console.log(e);
+        const dates = this.state.dates.slice();
         const { start } = e.value;
+        if (this.isWeekend(start)) { // 周末
+            return Taro.showToast({
+                title: '双休日不可选',
+                icon: 'none'
+            })
+        }
+        dates[dates.length - 1] = start
+        this.setState({
+            dates
+        })
         const { onChangeDate } = this.props;
         // callback
         onChangeDate && onChangeDate(start);
@@ -76,7 +115,6 @@ export default class DateSelector extends Component {
                 className={`item ${idx === index ? 'active' : ''}`} key={idx}>
                 {item}
             </View>
-
         })
     }
     render() {
@@ -85,10 +123,14 @@ export default class DateSelector extends Component {
             <View className="wrap">
                 {this.renderList()}
             </View>
-            {this.state.showCalendar && <AtCalendar
-                onSelectDate={this.handelSelectDate}
-                minDate={this.getTomorrow()} currentDate={this.getTomorrow()} />}
-
+            <GenModal showModal={this.state.showCalendar} hide={this.hide}>
+                <AtCalendar
+                    style={{
+                        width: '100vw'
+                    }}
+                    onSelectDate={this.handelSelectDate}
+                    minDate={this.getNextThreeDate()[0]} currentDate={this.getNextThreeDate()[0]} />
+            </GenModal>
         </View>
     }
 }
