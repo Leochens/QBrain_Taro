@@ -26,6 +26,11 @@ export default class Prod extends Component {
             showModal: !this.state.showModal
         })
     }
+    gotoAppointment() {
+        Taro.navigateTo({
+            url: '/pages/appointment/appointment'
+        })
+    }
 
     render() {
         return <View>
@@ -145,7 +150,7 @@ export default class Prod extends Component {
                     </View>
 
                 </View>
-                <View className="order">
+                <View className="order" onClick={this.gotoAppointment}>
                     <View className="price">
                         <View>
 
