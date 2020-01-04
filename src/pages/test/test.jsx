@@ -7,7 +7,7 @@ import { appConfig } from '../../config'
 const apiBaseUrl = appConfig.apiBaseUrl;
 import './test.less'
 
-
+// 此页面仅供测试
 
 @connect(({ user }) => ({
   user

@@ -73,8 +73,8 @@ export default class Appointment extends Component {
 
     onSubmit = (e) => {
         // console.log(e);
-        const { name, gender, phone, address, gatecode } = this.state;
-        console.log("提交成功", name, gender, phone, address, gatecode)
+        const { name, gender, phone, address, gatecode, date } = this.state;
+        console.log("提交成功", name, gender, phone, address, gatecode, date)
     }
     renderConfirm() {
         const { name, gender, phone, address, gatecode, date } = this.state;
@@ -162,7 +162,7 @@ export default class Appointment extends Component {
                         <Text className="float">.00</Text>
                     </View>
                 </View>
-                <View className="btn">立即支付</View>
+                <View className="btn" onClick={this.onSubmit}>立即支付</View>
             </View>
 
         </View>

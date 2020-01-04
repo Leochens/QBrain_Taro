@@ -8,9 +8,6 @@ import GenModal from '../GenModal/GenModal';
 // const app = Taro.getApp();
 
 export default class DateSelector extends Component {
-
-
-
     state = {
         index: 0,
         showCalendar: false,
@@ -19,16 +16,6 @@ export default class DateSelector extends Component {
     componentDidMount() {
         const { onChangeDate } = this.props;
         onChangeDate && onChangeDate(this.state.dates[0]);
-    }
-    getTomorrow() {
-        const dd = new Date();
-        dd.setDate(dd.getDate() + 1);
-        const y = dd.getFullYear();
-        const m = dd.getMonth() + 1 < 10 ? "0" + (dd.getMonth() + 1) : dd.getMonth() + 1;
-        const d = dd.getDate() < 10 ? "0" + dd.getDate() : dd.getDate();
-        const res = y + '/' + m + '/' + d
-        console.log(res);
-        return res;
     }
 
     getNextDate(date, day) {
