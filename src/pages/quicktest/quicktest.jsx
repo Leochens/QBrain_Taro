@@ -6,6 +6,7 @@ import './quicktest.less'
 
 import qlist from './qlist';
 import CircleProgress from '../../components/CircleProgress/CircleProgress';
+import NavBar from '../../components/NavBar/NavBar';
 export default class QuickTest extends Component {
 
 
@@ -108,16 +109,8 @@ export default class QuickTest extends Component {
     render() {
         // const { index, qlist, score } = this.state;
         return <View className="wrap" style={{
-            marginTop: this.state.statusBarHeight + 'px'
         }}>
-            <View className="menu" style={{
-                height: this.state.navHeight + 'px',
-                marginTop: this.state.navMarginTop + 'px',
-                lineHeight: this.state.navHeight + 'px'
-            }}>
-                <AtIcon onClick={this.back} size={20} className="icon" value="chevron-left" />
-                |
-            <AtIcon size={20} className="icon" value="home"  onClick={this.gotoHome}/></View>
+            <NavBar/>
             <View className="title">量健智能老年痴呆评测-快速评测</View>
             {this.renderQList()}
         </View>
