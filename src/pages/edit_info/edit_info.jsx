@@ -29,17 +29,46 @@ export default class EditInfo extends Component {
             ]
         }
     }
+
+    updateUser = (id, user) => {
+        const { list } = this.state;
+        const res = list.slice();
+        res[id] = user;
+        this.setState({
+            list: res
+        })
+    }
     toEdit = e => {
-        console.log(e);
+        const { list } = this.state;
+        const id = e.currentTarget.dataset.id
+        console.log(id);
+        const user = list[id];
+        Taro.navigateTo({
+            url: '/pages/add_member/add_member',
+            events: {
+                acceptDataFromOpenedPage: function (data) {
+                    console.log(data,'ewfwef')
+                },
+                someEvent: function (data) {
+                    console.log(data)
+                }
+            },
+            success: function (res) {
+                // 通过eventChannel向被打开页面传送数据
+                console.log("???")
+                res.eventChannel.emit('acceptDataFromOpenerPage', { data: 'test' })
+            }
+        })
+
+
     }
     renderList = () => {
         const { list } = this.state;
-
         return list.map((item, idx) => {
-            return <View className="item" key={idx} data-id={idx}>
+            return <View className="item" key={idx}>
                 <View className="block">
                     <View className="name">{item.name}</View>
-                    <View className="edit" onClick={this.toEdit}>编辑信息</View>
+                    <View className="edit" onClick={this.toEdit} data-id={idx}>编辑信息</View>
                 </View >
                 <View className="gender">性别: {item.gender}</View>
                 <View className="phone">手机: {item.phone}</View>
