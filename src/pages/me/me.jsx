@@ -25,6 +25,7 @@ export default class Me extends Component {
             navHeight: app.state.nav.height,
             navMarginTop: app.state.nav.top
         }
+
     }
     render() {
         return <View className="wrap">
@@ -43,11 +44,19 @@ export default class Me extends Component {
                 </View>
             </View>
             <View className="list">
-                <View className="item border" >
+                <View className="item border" onClick={() => {
+                    Taro.navigateTo({
+                        url: '/pages/my_report/my_report'
+                    })
+                }}>
                     我的报告
                     <AtIcon className="icon" value="chevron-right" />
                 </View>
-                <View className="item" >
+                <View className="item" onClick={() => {
+                    Taro.navigateTo({
+                        url: '/pages/my_orders/my_orders'
+                    })
+                }}>
                     我的订单
                     <AtIcon className="icon" value="chevron-right" />
                 </View>
@@ -57,3 +66,4 @@ export default class Me extends Component {
         </View>
     }
 }
+

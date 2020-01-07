@@ -24,16 +24,18 @@ export default class NavBar extends Component {
     }
 
     render() {
-        return <View>
-            <View className="menu" style={{
-                height: this.state.navHeight + 'px',
-                marginTop: this.state.navMarginTop + 'px',
-                lineHeight: this.state.navHeight + 'px'
-            }}>
+        return <View style={{
+            height: this.state.navHeight + 'px',
+            marginTop: this.state.navMarginTop + 'px',
+            lineHeight: this.state.navHeight + 'px'
+        }} className="wrap">
+            <View className="menu">
                 <AtIcon onClick={this.back} size={20} className="icon" value="chevron-left" />
                 |
-            <AtIcon size={20} className="icon" value="home" onClick={this.gotoHome} /></View>
-            <View className="title">{this.props.title}</View>
+            <AtIcon size={20} className="icon" value="home" onClick={this.gotoHome} />
+            </View>
+            <View className="title" >{this.props.title}</View>
+            <View className="pp">.</View>
         </View>
     }
 }
