@@ -40,7 +40,11 @@ export default class Me extends Component {
                 <Image src={this.props.user.avatarUrl} className="avatar" />
                 <View className="info">
                     <View className="phone">134******78</View>
-                    <View className="edit">编辑信息</View>
+                    <View className="edit" onClick={() => {
+                        Taro.navigateTo({
+                            url: '/pages/edit_info/edit_info'
+                        })
+                    }}>编辑信息</View>
                 </View>
             </View>
             <View className="list">

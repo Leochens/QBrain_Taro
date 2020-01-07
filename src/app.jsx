@@ -21,11 +21,11 @@ class App extends Component {
 
   config = {
     pages: [
+      'pages/index/index',
       'pages/edit_info/edit_info',
       'pages/add_member/add_member',
       'pages/my_orders/my_orders',
       'pages/my_report/my_report',
-      'pages/index/index',
       'pages/appointment/appointment',
       'pages/quicktest/quicktest',
       'pages/prod/prod',
