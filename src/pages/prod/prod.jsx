@@ -38,10 +38,10 @@ export default class Prod extends Component {
                 height: this.state.statusBarHeight,
                 width: '100%',
                 backgroundColor: 'transparent',
-                color: 'transparent'
+                color: 'transparent',
+                marginBottom: '10px'
             }}>占位</View>
             <View className='wrap'>
-
                 <View className="top-title">脑健康体检</View>
                 <View className="banner"></View>
                 <View className="at-row tags">
