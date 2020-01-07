@@ -21,6 +21,7 @@ class App extends Component {
 
   config = {
     pages: [
+      'pages/my_orders/my_orders',
       'pages/my_report/my_report',
       'pages/index/index',
       'pages/appointment/appointment',
@@ -28,7 +29,6 @@ class App extends Component {
       'pages/prod/prod',
       'pages/me/me',
       'pages/test/test',
-      'pages/my_orders/my_orders',
     ],
     window: {
       backgroundTextStyle: 'light',
