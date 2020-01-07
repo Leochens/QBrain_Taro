@@ -29,6 +29,9 @@ export default class EditInfo extends Component {
             ]
         }
     }
+    toEdit = e => {
+        console.log(e);
+    }
     renderList = () => {
         const { list } = this.state;
 
@@ -36,7 +39,7 @@ export default class EditInfo extends Component {
             return <View className="item" key={idx} data-id={idx}>
                 <View className="block">
                     <View className="name">{item.name}</View>
-                    <View className="edit">编辑信息</View>
+                    <View className="edit" onClick={this.toEdit}>编辑信息</View>
                 </View >
                 <View className="gender">性别: {item.gender}</View>
                 <View className="phone">手机: {item.phone}</View>
