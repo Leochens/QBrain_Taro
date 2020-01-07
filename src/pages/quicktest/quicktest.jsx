@@ -1,7 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
-import { AtProgress } from 'taro-ui';
+import { AtProgress, AtIcon } from 'taro-ui';
 import './quicktest.less'
 
 import qlist from './qlist';
@@ -37,7 +37,12 @@ export default class QuickTest extends Component {
         })
     }
     back = () => {
-        Taro.navigateBack()
+        Taro.navigateBack();
+    }
+    gotoHome = () => {
+        Taro.switchTab({
+            url:'/pages/index/index'
+        })
     }
     gotoAppointment() {
         Taro.navigateTo({
@@ -68,7 +73,7 @@ export default class QuickTest extends Component {
                             color={'#1B7CD5'}
                             percent={((index + 1) / qlist.length) * 100}
                             isHidePercent strokeWidth={10} />
-                        <View>{index + 1}/{qlist.length} {score}</View>
+                        <View>{index + 1}/{qlist.length}</View>
                     </View>
                 </View>
             )
@@ -101,17 +106,20 @@ export default class QuickTest extends Component {
 
 
     render() {
-        const { index, qlist, score } = this.state;
+        // const { index, qlist, score } = this.state;
         return <View className="wrap" style={{
             marginTop: this.state.statusBarHeight + 'px'
         }}>
-            <View style={{
+            <View className="menu" style={{
                 height: this.state.navHeight + 'px',
                 marginTop: this.state.navMarginTop + 'px',
                 lineHeight: this.state.navHeight + 'px'
-            }} className="title">量健智能老年痴呆评测-快速评测</View>
+            }}>
+                <AtIcon onClick={this.back} size={20} className="icon" value="chevron-left" />
+                |
+            <AtIcon size={20} className="icon" value="home"  onClick={this.gotoHome}/></View>
+            <View className="title">量健智能老年痴呆评测-快速评测</View>
             {this.renderQList()}
-
         </View>
     }
 }
