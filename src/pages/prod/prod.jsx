@@ -66,20 +66,20 @@ export default class Prod extends Component {
                         <View className="title"> 体检特色</View>
                         <View className="items">
                             <View className="item">
-                                <View className="icon"></View>
+                                <View className="icon p1"></View>
                                 <View className="title">数据权威
 </View>
                                 <View>全国最大人脑数据库，评估更精准</View>
                             </View>
                             <View className="item">
-                                <View className="icon"></View>
+                                <View className="icon p2"></View>
                                 <View className="title">AI分析
 </View>
                                 <View>61个脑分区全面分析检测
 </View>
                             </View>
                             <View className="item">
-                                <View className="icon"></View>
+                                <View className="icon p3"></View>
                                 <View className="title">专家团队
 
 </View>
