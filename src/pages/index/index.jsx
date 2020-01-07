@@ -1,10 +1,12 @@
-
-
 import Taro, { Component } from '@tarojs/taro'
 import { View, Button, Text, Icon } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import { AtButton, AtIcon } from 'taro-ui';
 import NBTitle from '../../components/NBTitle/NBTitle';
+import topBannerPng from '../../images/topBanner.png'
+import entrancePng from '../../images/entrance.png'
+import backgroundPng from '../../images/background.png'
+
 import './index.less'
 class Test extends Component {
 
@@ -33,48 +35,32 @@ class Test extends Component {
   render() {
     return (
       <View className='at-col'>
+        <Image src={topBannerPng} class="topBanner"/>
         <View className="at-col banner-wrap">
-          <View className='at-col banner'>
-            <View className='at-row test'>
-              <View className="at-col at-col-5  banner-item">
+            <View className='at-row test at-row__justify--around'>
+              <View className="at-col at-col-5 banner-item">
                 <View className="title">整套评测</View>
-                <View className="des1">245道题目</View>
-                <View className="des2">预计时间20分钟
-</View>
+                <View className="des1">测评更准确</View>
+                <View className="des2">耗时较长</View>
                 <Button circle className="btn">去评测</Button>
               </View>
-              <View className="at-col at-col-6 at-col__offset-1 banner-item">
+              <View className="at-col at-col-5 banner-item">
                 <View className="title" >快速评定</View>
-                <View className="des1">10道题目</View>
-                <View className="des2">预计时间5分钟
-</View>
+                <View className="des1">入门级评测</View>
+                <View className="des2">8道题目，耗时少</View>
                 <Button className="btn" onClick={this.toQuickTest}>去评测</Button>
               </View>
-            </View>
-          </View>
-
-
-        </View>
-        <View className='at-row appointment' onClick={this.gotoAppointment}>
-          <View className="at-col at-col-11">
-            <View className="title">预约脑体检
-</View>
-            <View className="des">AI筛查精准定位大脑健康状况
-</View>
-          </View>
-          <View className="at-col">
-            <AtIcon className="icon" value="chevron-right" />
           </View>
         </View>
+        <Image src={entrancePng} class="entrance" onClick={this.gotoAppointment}/>
+
         <View className='at-col detail'>
           <View className="at-col des">
-            <NBTitle>专业评测团队</NBTitle>
-            <View className="text">
-              <View>北师大背景，国家xxx项目
-</View>
-            </View>
+            <NBTitle>评测背景</NBTitle>
+            <Image src={backgroundPng} class="background"/>
+            
           </View>
-          <View className="at-col des">
+          {/*<View className="at-col des">
             <NBTitle>项目背景</NBTitle>
             <View className="text">
               <View>李开复推荐</View>
@@ -82,7 +68,7 @@ class Test extends Component {
               <View>技术总监背景</View>
               <View>全球化视野</View>
             </View>
-          </View>
+          </View>*/}
           <View className="at-col des">
             <NBTitle>合作伙伴</NBTitle>
             <View className="partner">
