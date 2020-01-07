@@ -17,6 +17,8 @@ export default class Prod extends Component {
         const app = Taro.getApp();
         this.state = {
             statusBarHeight: app.state.statusBarHeight,
+            navHeight: app.state.nav.height,
+            navMarginTop: app.state.nav.top,
             showModal: false
         }
     }
@@ -34,15 +36,13 @@ export default class Prod extends Component {
 
     render() {
         return <View>
-            <View style={{
-                height: this.state.statusBarHeight,
-                width: '100%',
-                backgroundColor: 'transparent',
-                color: 'transparent',
-                marginBottom: '10px'
-            }}>占位</View>
             <View className='wrap'>
-                <View className="top-title">脑健康体检</View>
+                <View style={{
+                    textAlign: 'center',
+                    height: this.state.navHeight + 'px',
+                    marginTop: this.state.navMarginTop + 'px',
+                    lineHeight: this.state.navHeight + 'px'
+                }} className="top-title">脑健康体检</View>
                 <View className="banner"></View>
                 <View className="at-row tags">
                     <View className="at-col item">

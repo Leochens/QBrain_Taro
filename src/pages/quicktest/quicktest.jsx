@@ -29,7 +29,7 @@ export default class QuickTest extends Component {
     }
 
     handleClickOption = e => {
-        // console.log(e.target.dataset.w)˝
+        // console.log(e.target.dataset.w)
         const { index, score } = this.state;
         this.setState({
             index: index + 1,
