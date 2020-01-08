@@ -99,7 +99,7 @@ export default class QuickTest extends Component {
                     <View className="des">AI筛查精准定位大脑健康状况</View>
                 </View>
             </View>
-            <Button onClick={() => {
+            <Button className="home-btn" onClick={() => {
                 Taro.navigateBack();
             }}> 返回主页</Button>
         </View>
