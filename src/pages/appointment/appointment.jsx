@@ -16,7 +16,7 @@ export default class Appointment extends Component {
         gender: null,
         phone: '13204020948',
         idCard: '142625199203270056',
-        
+
 
 
     }
@@ -74,7 +74,17 @@ export default class Appointment extends Component {
     onSubmit = (e) => {
         // console.log(e);
         const { name, gender, phone, idCard, date } = this.state;
+        if (!name || !gender || !phone || !idCard) {
+            return Taro.showToast({
+                title: "请将字段填写完整",
+                icon: 'none'
+            })
+        }
         console.log("提交成功", name, gender, phone, idCard, date)
+        Taro.showToast({
+            title: "提交成功",
+            icon: 'success'
+        })
     }
     renderConfirm() {
         const { name, gender, phone, idCard, date } = this.state;
@@ -95,18 +105,18 @@ export default class Appointment extends Component {
                     }}
                 />
 
-               
+
 
 
                 <AtRadio
                     options={[
-                      { label: '男', value: '0' },
-                      { label: '女', value: '1' },
+                        { label: '男', value: '0' },
+                        { label: '女', value: '1' },
                     ]}
                     value={gender}
-                    onClick={(value)=>this.setState({gender:value})}
-                  />
-                 
+                    onClick={(value) => this.setState({ gender: value })}
+                />
+
 
                 <AtInput
                     name='phone'
@@ -120,7 +130,7 @@ export default class Appointment extends Component {
                         })
                     }}
                 />
-              
+
                 <AtInput
                     name='idCard'
                     title='身份证'

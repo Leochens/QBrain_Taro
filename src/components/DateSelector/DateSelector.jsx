@@ -107,11 +107,8 @@ export default class DateSelector extends Component {
             case 6: res_wd = "周六"; break;
             default: break;
         }
-        console.log("星期几", res_wd);
-
         const tmp = day.split('-');
         const m_d = tmp[1] + '-' + tmp[2];
-        console.log(m_d);
         return res_wd + ' ' + m_d
     }
     renderList() {
