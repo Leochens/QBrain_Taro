@@ -40,19 +40,26 @@ class App extends Component {
       navigationStyle: 'custom'
     },
     tabBar: {
+      color: '#d6d6d6',
+      selectedColor: '#3789d6',
       list: [{
         pagePath: "pages/index/index",
         text: "首页",
-        // iconPath: ''
+        iconPath: 'images/tab/index.png',
+        selectedIconPath: 'images/tab/index_active.png',
+
+
       }, {
         pagePath: "pages/prod/prod",
         text: "产品",
-        // iconPath: ''
+        iconPath: 'images/tab/prod.png',
+        selectedIconPath: 'images/tab/prod_active.png'
       },
       {
         pagePath: "pages/me/me",
         text: "我的",
-        // iconPath: ''
+        iconPath: 'images/tab/me.png',
+        selectedIconPath: 'images/tab/me_active.png'
       }]
     },
     navigateToMiniProgramAppIdList: [
