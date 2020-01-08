@@ -29,9 +29,7 @@ export default class Prod extends Component {
         })
     }
     gotoAppointment() {
-        // Taro.navigateTo({
-        //     url: '/pages/appointment/appointment'
-        // })
+        
     }
 
     getPhoneNumber(e) {
@@ -59,6 +57,12 @@ export default class Prod extends Component {
         })
         .then(res=>{
             console.log('Taro.resquest->update phoneNumber=>',res)
+            if(typeof res.data.phoneNumber !== 'undefined'){
+                Taro.navigateTo({
+                    url: '/pages/appointment/appointment'
+                })
+            }
+
         })
 
       }

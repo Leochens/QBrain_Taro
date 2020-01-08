@@ -23,10 +23,21 @@ export default class Me extends Component {
         this.state = {
             statusBarHeight: app.state.statusBarHeight,
             navHeight: app.state.nav.height,
-            navMarginTop: app.state.nav.top
+            navMarginTop: app.state.nav.top,
+            phoneNumber: 'xxxxxx'
         }
-
+        
     }
+
+    componentWillMount(){
+        Taro.getStorage({ key: 'phone_number'})
+        .then(res=>{
+            this.setState({
+                phoneNumber:res.data
+            })
+        })
+    }
+
     render() {
         return <View className="wrap">
             <View style={{
@@ -39,7 +50,7 @@ export default class Me extends Component {
             <View className="user">
                 <Image src={this.props.user.avatarUrl} className="avatar" />
                 <View className="info">
-                    <View className="phone">134******78</View>
+                    <View className="phone">{this.state.phoneNumber}</View>
                     <View className="edit" onClick={() => {
                         Taro.navigateTo({
                             url: '/pages/edit_info/edit_info'
