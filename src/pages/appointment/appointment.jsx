@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View } from '@tarojs/components'
-import { AtSteps, AtForm, AtInput, AtButton } from 'taro-ui'
+import { View, Picker } from '@tarojs/components'
+import { AtSteps, AtForm, AtInput, AtButton, AtRadio } from 'taro-ui'
 
 import './Appointment.less'
 import DateSelector from '../../components/DateSelector/DateSelector';
@@ -12,11 +12,11 @@ export default class Appointment extends Component {
         step: 0,
         statusBarHeight: app.state.statusBarHeight,
 
-        name: '',
+        name: '冯亮',
         gender: null,
-        phone: '',
-        address: '',
-        gatecode: ''
+        phone: '13204020948',
+        idCard: '142625199203270056',
+        
 
 
     }
@@ -73,11 +73,11 @@ export default class Appointment extends Component {
 
     onSubmit = (e) => {
         // console.log(e);
-        const { name, gender, phone, address, gatecode, date } = this.state;
-        console.log("提交成功", name, gender, phone, address, gatecode, date)
+        const { name, gender, phone, idCard, date } = this.state;
+        console.log("提交成功", name, gender, phone, idCard, date)
     }
     renderConfirm() {
-        const { name, gender, phone, address, gatecode, date } = this.state;
+        const { name, gender, phone, idCard, date } = this.state;
         return <View className="confirm">
 
             <AtForm
@@ -89,25 +89,24 @@ export default class Appointment extends Component {
                     placeholder='请输入体检人姓名'
                     value={name}
                     onChange={(e) => {
-                        console.log(e)
                         this.setState({
                             name: e
                         })
                     }}
                 />
 
-                <AtInput
-                    name='gender'
-                    title='性别'
-                    type='select'
+               
+
+
+                <AtRadio
+                    options={[
+                      { label: '男', value: '0' },
+                      { label: '女', value: '1' },
+                    ]}
                     value={gender}
-                    onChange={(e) => {
-                        console.log(e)
-                        this.setState({
-                            gender: e
-                        })
-                    }}
-                />
+                    onClick={(value)=>this.setState({gender:value})}
+                  />
+                 
 
                 <AtInput
                     name='phone'
@@ -116,35 +115,21 @@ export default class Appointment extends Component {
                     placeholder='请输入手机号'
                     value={phone}
                     onChange={(e) => {
-                        console.log(e)
                         this.setState({
                             phone: e
                         })
                     }}
                 />
+              
                 <AtInput
-                    name='address'
-                    title='收货地址'
+                    name='idCard'
+                    title='身份证'
                     type='text'
-                    placeholder='点击选择'
-                    value={address}
+                    placeholder='请输入身份证号'
+                    value={idCard}
                     onChange={(e) => {
-                        console.log(e)
                         this.setState({
-                            address: e
-                        })
-                    }}
-                />
-                <AtInput
-                    name='gatecode'
-                    title='门牌号'
-                    type='text'
-                    placeholder='详细地址，例如：1层1单元101室'
-                    value={gatecode}
-                    onChange={(e) => {
-                        console.log(e)
-                        this.setState({
-                            gatecode: e
+                            idCard: e
                         })
                     }}
                 />
