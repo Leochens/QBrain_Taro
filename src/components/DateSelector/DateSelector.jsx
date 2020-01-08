@@ -93,6 +93,27 @@ export default class DateSelector extends Component {
         // callback
         onChangeDate && onChangeDate(start);
     }
+    getWeekDay = day => {
+        const D = new Date(day);
+        const wd = D.getDay();
+        let res_wd = ''
+        switch (wd) {
+            case 0: res_wd = "周日"; break;
+            case 1: res_wd = "周一"; break;
+            case 2: res_wd = "周二"; break;
+            case 3: res_wd = "周三"; break;
+            case 4: res_wd = "周四"; break;
+            case 5: res_wd = "周五"; break;
+            case 6: res_wd = "周六"; break;
+            default: break;
+        }
+        console.log("星期几", res_wd);
+
+        const tmp = day.split('-');
+        const m_d = tmp[1] + '-' + tmp[2];
+        console.log(m_d);
+        return res_wd + ' ' + m_d
+    }
     renderList() {
         const { index, dates } = this.state;
         return dates.map((item, idx) => {
@@ -100,7 +121,10 @@ export default class DateSelector extends Component {
                 data-id={idx}
                 onClick={this.selectDate}
                 className={`item ${idx === index ? 'active' : ''}`} key={idx}>
-                {item}
+                {idx === dates.length - 1
+                    ? item
+                    : this.getWeekDay(item)
+                }
             </View>
         })
     }

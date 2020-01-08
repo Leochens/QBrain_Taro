@@ -46,8 +46,6 @@ export default class EditInfo extends Component {
         Taro.navigateTo({
             url: '/pages/add_member/add_member?user=' + JSON.stringify(user)
         })
-
-
     }
     renderList = () => {
         const { list } = this.state;
