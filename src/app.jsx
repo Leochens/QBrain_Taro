@@ -90,6 +90,52 @@ class App extends Component {
 
   }
 
+  componentWillMount(){
+    Taro.getSetting({
+        success(res){
+            if (res.authSetting['scope.userInfo']) {
+                return res
+            }else{
+                return false    
+            }
+        }
+    })
+    .then(res=>{
+        console.log('Taro.getSetting=>',res)
+        return Taro.login({
+            success(res){
+                return res
+            }
+        })
+    })
+    .then(res=>{
+        console.log('Taro.login=>',res)
+        if (res.code) {
+          return Taro.request({
+            url: 'http://localhost:8899/auth',
+            method:'POST',
+            data: {
+              code: res.code
+            }
+          })
+        } else {
+          throw new Error('登录失败！' + res.errMsg)
+        }
+    })
+    .then(res=>{
+        console.log('Taro.request=>',res)
+        //获得u_id 和 SID
+        const SID = res.data.SID
+        const u_id = res.data.u_id
+        const phone_number = res.data.phone_number
+        Taro.setStorage({ key: 'phone_number', data: phone_number }).then(res => console.log('setStorage->phone_number'))
+        Taro.setStorage({ key: 'sessionID', data: SID }).then(res => console.log('setStorage->sessionID'))
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+  }
+
   componentDidShow() { }
 
   componentDidHide() { }

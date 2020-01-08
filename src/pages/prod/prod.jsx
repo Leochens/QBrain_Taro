@@ -29,57 +29,41 @@ export default class Prod extends Component {
         })
     }
     gotoAppointment() {
-        //微信授权登录
-        Taro.login({
-          success (res) {
-            if (res.code) {
-              //发起网络请求
-              Taro.request({
-                url: 'http://localhost:8899/auth',
-                method:'POST',
-                data: {
-                  code: res.code
-                }
-              }).then(res=>{
-                console.log('request=>',res.data)
-                //成功的话 获取身份信息
-                Taro.getSetting({
-                  success(res) {
-                    console.log('getSetting=>',res)
-                    if (!res.authSetting['scope.userInfo']) {
-                      Taro.authorize({
-                        scope: 'scope.userInfo',
-                        success () {
-                          // 用户已经同意小程序使用录音功能，后续调用 wx.startRecord 接口不会弹窗询问
-                          // wx.startRecord()
-                          Taro.getUserInfo({
-                              success: function(res) {
-                                console.log("getUserInfo=>",res)
-                                var userInfo = res.userInfo
-                                var nickName = userInfo.nickName
-                                var avatarUrl = userInfo.avatarUrl
-                                var gender = userInfo.gender //性别 0：未知、1：男、2：女
-                                var province = userInfo.province
-                                var city = userInfo.city
-                                var country = userInfo.country
-                              }
-                            })
-                        }
-                      })
-                    }
-                  }
-                })
-              })
-            } else {
-              console.log('登录失败！' + res.errMsg)
-            }
-          }
-        })
-
         // Taro.navigateTo({
         //     url: '/pages/appointment/appointment'
         // })
     }
+
+    getPhoneNumber(e) {
+      console.log(`是否成功调用${e.detail.errMsg}`);
+      console.log(`加密算法的初始向量:${e.detail.iv}`);
+      console.log(`包括敏感数据在内的完整用户信息的加密数据:${e.detail.encryptedData}`);
+
+      if(e.detail.iv && e.detail.encryptedData){
+        let endata = { iv:e.detail.iv, encryptedData:e.detail.encryptedData}  
+
+        Taro.getStorage({ key: 'sessionID'})
+        .then(res =>{
+            let sessionID = res.data
+            return Taro.request({
+                url: 'http://localhost:8899/number',
+                method:'POST',
+                header: {
+                    'content-type': 'application/json', // 默认值
+                    "cookie": sessionID
+                },
+                data: {
+                  endata: endata
+                }
+            })
+        })
+        .then(res=>{
+            console.log('Taro.resquest->update phoneNumber=>',res)
+        })
+
+      }
+      
+    } 
 
     render() {
         return <View>
@@ -189,7 +173,7 @@ export default class Prod extends Component {
                     </View>
 
                 </View>
-                <View className="order" onClick={this.gotoAppointment}>
+                <View className="order">
                     <View className="price">
                         <View>
 
@@ -197,7 +181,7 @@ export default class Prod extends Component {
                             <Text className="float">.00</Text>
                         </View>
                     </View>
-                    <View className="btn">立即预约</View>
+                    <Button openType='getPhoneNumber' onGetPhoneNumber={this.getPhoneNumber} className="btn">立即预约</Button>
                 </View>
             </View>
 
