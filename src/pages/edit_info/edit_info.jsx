@@ -44,20 +44,7 @@ export default class EditInfo extends Component {
         console.log(id);
         const user = list[id];
         Taro.navigateTo({
-            url: '/pages/add_member/add_member',
-            events: {
-                acceptDataFromOpenedPage: function (data) {
-                    console.log(data,'ewfwef')
-                },
-                someEvent: function (data) {
-                    console.log(data)
-                }
-            },
-            success: function (res) {
-                // 通过eventChannel向被打开页面传送数据
-                console.log("???")
-                res.eventChannel.emit('acceptDataFromOpenerPage', { data: 'test' })
-            }
+            url: '/pages/add_member/add_member?user=' + JSON.stringify(user)
         })
 
 
@@ -82,7 +69,7 @@ export default class EditInfo extends Component {
             <View className="list">
                 {this.renderList()}
             </View>
-            <View className="add">添加体检人</View>
+            <View className="add" onClick={this.toEdit}>添加体检人</View>
 
         </View>
     }

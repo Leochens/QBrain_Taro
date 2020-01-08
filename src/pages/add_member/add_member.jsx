@@ -20,15 +20,24 @@ export default class AddMemebr extends Component {
         }
     }
     componentDidMount() {
-        console.log(this.props);
+        console.log(this.$router.params);
+        if (!this.$router.params.user) return;
+        const user = JSON.parse(this.$router.params.user);
+
+        this.setState({
+            name: user.name,
+            gender: user.gender,
+            phone: user.phone,
+            idcard: user.idcard
+        })
     }
     handleChange = e => {
         console.log(e);
-    }
 
+    }
     render() {
         return <View className="wrap">
-            <NavBar title={`${this.props.update ? '编辑' : '添加'}体检人`} />
+            <NavBar title={`${this.$router.params.user ? '编辑' : '添加'}体检人`} />
             <AtForm className="form">
                 <AtInput
                     name='name'
