@@ -23,8 +23,8 @@ class Test extends Component {
   componentDidShow() { }
   componentDidHide() { }
   gotoAppointment() {
-    Taro.navigateTo({
-      url: '/pages/appointment/appointment'
+    Taro.switchTab({
+      url: '/pages/prod/prod'
     })
   }
   toQuickTest = () => {

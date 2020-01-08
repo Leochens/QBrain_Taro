@@ -29,9 +29,56 @@ export default class Prod extends Component {
         })
     }
     gotoAppointment() {
-        Taro.navigateTo({
-            url: '/pages/appointment/appointment'
+        //微信授权登录
+        Taro.login({
+          success (res) {
+            if (res.code) {
+              //发起网络请求
+              Taro.request({
+                url: 'http://localhost:8899/auth',
+                method:'POST',
+                data: {
+                  code: res.code
+                }
+              }).then(res=>{
+                console.log('request=>',res.data)
+                //成功的话 获取身份信息
+                Taro.getSetting({
+                  success(res) {
+                    console.log('getSetting=>',res)
+                    if (!res.authSetting['scope.userInfo']) {
+                      Taro.authorize({
+                        scope: 'scope.userInfo',
+                        success () {
+                          // 用户已经同意小程序使用录音功能，后续调用 wx.startRecord 接口不会弹窗询问
+                          // wx.startRecord()
+                          Taro.getUserInfo({
+                              success: function(res) {
+                                console.log("getUserInfo=>",res)
+                                var userInfo = res.userInfo
+                                var nickName = userInfo.nickName
+                                var avatarUrl = userInfo.avatarUrl
+                                var gender = userInfo.gender //性别 0：未知、1：男、2：女
+                                var province = userInfo.province
+                                var city = userInfo.city
+                                var country = userInfo.country
+                              }
+                            })
+                        }
+                      })
+                    }
+                  }
+                })
+              })
+            } else {
+              console.log('登录失败！' + res.errMsg)
+            }
+          }
         })
+
+        // Taro.navigateTo({
+        //     url: '/pages/appointment/appointment'
+        // })
     }
 
     render() {
@@ -51,13 +98,11 @@ export default class Prod extends Component {
                     </View>
                     <View className="at-col item" >
                         <AtIcon value="check-circle icon" size="small" />
-                        <View>官方直营
-</View>
+                        <View>官方直营</View>
                     </View>
                     <View className="at-col item">
                         <AtIcon value="check-circle icon" size="small" />
-                        <View>快速预约
-</View>
+                        <View>快速预约</View>
                     </View>
                 </View>
                 <View className="features">
@@ -67,24 +112,18 @@ export default class Prod extends Component {
                         <View className="items">
                             <View className="item">
                                 <View className="icon p1"></View>
-                                <View className="title">数据权威
-</View>
+                                <View className="title">数据权威</View>
                                 <View>全国最大人脑数据库，评估更精准</View>
                             </View>
                             <View className="item">
                                 <View className="icon p2"></View>
-                                <View className="title">AI分析
-</View>
-                                <View>61个脑分区全面分析检测
-</View>
+                                <View className="title">AI分析</View>
+                                <View>61个脑分区全面分析检测</View>
                             </View>
                             <View className="item">
                                 <View className="icon p3"></View>
-                                <View className="title">专家团队
-
-</View>
-                                <View>国内顶级神经内科专家核验
-</View>
+                                <View className="title">专家团队</View>
+                                <View>国内顶级神经内科专家核验</View>
                             </View>
                         </View>
                     </View>

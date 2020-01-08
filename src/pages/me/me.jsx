@@ -65,8 +65,6 @@ export default class Me extends Component {
                     <AtIcon className="icon" value="chevron-right" />
                 </View>
             </View>
-
-            <View className="logout">退出</View>
         </View>
     }
 }
