@@ -27,14 +27,20 @@ export default class NavBar extends Component {
         return <View style={{
             height: this.state.navHeight + 'px',
             marginTop: this.state.navMarginTop + 'px',
-            lineHeight: this.state.navHeight + 'px'
-        }} className="wrap">
-            <View className="menu">
+            lineHeight: this.state.navHeight + 'px',
+            backgroundColor: this.props.bgColor || '#fff'
+        }}
+            className="wrap">
+            <View className="menu" style={{
+                color: this.props.color
+            }}>
                 <AtIcon onClick={this.back} size={20} className="icon" value="chevron-left" />
                 |
             <AtIcon size={20} className="icon" value="home" onClick={this.gotoHome} />
             </View>
-            <View className="title" >{this.props.title}</View>
+            <View className="title" style={{
+                color: this.props.color
+            }} >{this.props.title}</View>
             <View className="pp">.</View>
         </View>
     }

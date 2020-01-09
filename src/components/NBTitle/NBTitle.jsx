@@ -4,6 +4,8 @@ import './NBTitle.less'
 export default class NBTitle extends Component {
 
     render() {
-        return <View className="title">{this.props.children}</View>
+        return <View className={`${this.props.white ? 'w-' : ''}title`}>
+            {this.props.children}
+        </View>
     }
 }

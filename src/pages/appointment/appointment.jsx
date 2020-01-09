@@ -165,10 +165,6 @@ export default class Appointment extends Component {
                         })
                     }}
                 />
-
-
-
-
                 <AtRadio
                     options={[
                         { label: '男', value: '0' },

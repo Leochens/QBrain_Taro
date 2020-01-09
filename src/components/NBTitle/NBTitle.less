@@ -1,13 +1,13 @@
 .title {
-    width     : 235px;
-    height    : 66px;
-    background: rgba(27, 124, 213, 1);
-    position  : relative;
-    color: white;
-    display: block;
-    text-align: center;
+    width      : 235px;
+    height     : 66px;
+    background : rgba(27, 124, 213, 1);
+    position   : relative;
+    color      : white;
+    display    : block;
+    text-align : center;
     line-height: 66px;
-    margin: auto;
+    margin     : auto;
 }
 
 .title::before {
@@ -19,4 +19,33 @@
     position: absolute;
     top     : 4px;
     left    : 4px;
+}
+
+
+
+.w-title {
+    width      : 80vw;
+    display    : flex;
+    align-items: center;
+    margin     : 20px auto;
+    padding    : 5vw;
+    background : rgba(255, 255, 255, 1);
+    font-size  : 32px;
+    font-weight: 400;
+    color      : rgba(27, 124, 213, 1);
+    border     : 2px solid rgba(27, 124, 213, 1);
+    position   : relative;
+}
+
+.w-title::after {
+    content: '';
+    z-index: -1;
+    display   : block;
+    position  : absolute;
+    width     : 100%;
+    height    : 100%;
+    background: rgba(220, 226, 232, 1);
+    border    : 2px dashed rgba(27, 124, 213, 1);
+    bottom    : -10px;
+    right     : -10px;
 }

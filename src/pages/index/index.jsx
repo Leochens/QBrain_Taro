@@ -32,6 +32,11 @@ class Test extends Component {
       url: '/pages/quicktest/quicktest'
     })
   }
+  toFullTest = () => {
+    Taro.navigateTo({
+      url: '/pages/full_test/full_test'
+    })
+  }
   render() {
     return (
       <View className='at-col'>
@@ -42,7 +47,7 @@ class Test extends Component {
                 <View className="title">整套评测</View>
                 <View className="des1">测评更准确</View>
                 <View className="des2">耗时较长</View>
-                <Button circle className="btn">去评测</Button>
+                <Button circle className="btn"  onClick={this.toFullTest}>去评测</Button>
               </View>
               <View className="at-col at-col-5 banner-item">
                 <View className="title" >快速评定</View>
