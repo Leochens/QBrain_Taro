@@ -3,20 +3,20 @@ const qlist = {
         status: {
             normal: {
                 min: 0,
-                max: 10,
+                max: 1,
                 des: '您没有抑郁风险,请您继续保持。',
                 title: '健康'
             },
             middle: {
-                min: 11,
-                max: 40,
+                min: 2,
+                max: 3,
                 des: '您有轻度抑郁，请及时去医院检查。',
                 title: '轻度'
             },
             high: {
-                min: 41,
-                max: 100,
-                des: "您有种重度抑郁风险，请及时去医院检查。",
+                min: 4,
+                max: 5,
+                des: "您有中重度抑郁风险，请及时去医院检查。",
                 title: '中重度'
             }
         },

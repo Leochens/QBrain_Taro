@@ -3,6 +3,7 @@ import { View, Button, Text } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import { AtProgress, AtIcon } from 'taro-ui';
 import './test.less'
+import entrancePng from '../../../images/entrance.png'
 
 import allQuestions from './allQuestions';
 import CircleProgress from '../../../components/CircleProgress/CircleProgress';
@@ -88,8 +89,8 @@ export default class Test extends Component {
                 </View>
             )
         }
-        const res = this.getRes();
-        console.log(res);
+        const res = this.getRes(score);
+        console.log("??", res);
         const color = res.color;
         return <View>
             <CircleProgress score={score} progress={score / qlist.length} detail={res.title} color={color} />
@@ -99,12 +100,7 @@ export default class Test extends Component {
             }}>{res.title}</View>
             <View className="ljzn">量健智能提醒您：</View>
             <View className="advice">{res.des}</View>
-            <View className='at-row appointment' onClick={this.gotoAppointment}>
-                <View className="at-col at-col-11">
-                    <View className="ap-title">预约脑体检</View>
-                    <View className="des">AI筛查精准定位大脑健康状况</View>
-                </View>
-            </View>
+            <Image className="appointment-entry" src={entrancePng} onClick={this.gotoAppointment} />
             <Button className="home-btn" onClick={() => {
                 Taro.navigateBack();
             }}> 返回主页</Button>
