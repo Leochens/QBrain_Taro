@@ -113,9 +113,17 @@ export default class Appointment extends Component {
         // console.log(e);
         const { name, gender, phone, idCard, date } = this.state;
         
-        if (!name || !gender || !phone || !idCard) {
+        if (!name || !phone || !idCard) {
             return Taro.showToast({
                 title: "请将字段填写完整",
+                icon: 'none'
+            })
+        }
+
+
+        if (!gender) {
+            return Taro.showToast({
+                title: "请选择性别",
                 icon: 'none'
             })
         }
@@ -141,11 +149,41 @@ export default class Appointment extends Component {
         }
 
 
-        console.log("提交成功", name, gender, phone, idCard, date)
-        Taro.showToast({
-            title: "提交成功",
-            icon: 'success'
+        let code = '123123'
+        let hospital = '宣武医院'
+
+        let order = {
+            name, gender, phone, idCard, date,code,hospital
+        }
+
+        console.log('order=>',order)
+
+
+        Taro.getStorage({ key: 'sessionID'})
+        .then(res =>{
+            let sessionID = res.data
+            return Taro.request({
+                url: 'http://localhost:8899/order',
+                method:'POST',
+                header: {
+                    'content-type': 'application/json', // 默认值
+                    "cookie": sessionID
+                },
+                data: {
+                  order
+                }
+            })
         })
+        .then((res)=>{
+            if(res.data.code==200){
+                Taro.showToast({
+                    title: "提交成功",
+                    icon: 'success'
+                })
+            }
+        })
+
+
     }
     renderConfirm() {
         const { name, gender, phone, idCard, date } = this.state;
