@@ -12,32 +12,38 @@ export default class Test extends Component {
 
 
     config = {
-        navigationBarTitleText: '情绪评测',
         navigationBarTextStyle: "black"
     }
 
     constructor(props) {
         super(props);
-        // const type = props.$router.params.type || 'motion';
-        const type = 'motion';
+        const type = this.$router.params.type || 'motion';
         this.state = {
             qlist: allQuestions[type].list,
             status: allQuestions[type].status,
             index: 0,
             score: 0,
-            res: {}
+            res: {},
+            type
+        }
+    }
+    getType = type => {
+        switch (type) {
+            case 'motion': return '情绪评测';
+            case 'connect': return '连线测验';
+            case 'name': return '命名测验';
         }
     }
     getRes = score => {
         const { status: { normal, middle, high } } = this.state;
         if (score >= normal.min && score <= normal.max) {
-            return { ...normal, color: 'rgb(14,207,175)' }
+            this.setState({ res: { ...normal, color: 'rgb(14,207,175)' } })
         } else if (score >= middle.min && score <= middle.max) {
-            return { ...middle, color: '#f58037' }
+            this.setState({ res: { ...middle, color: '#f58037' } })
         } else if (score >= high.min && score <= high.max) {
-            return { ...high, color: 'rgb(229,21,22)' }
+            this.setState({ res: { ...high, color: 'rgb(229,21,22)' } })
         } else
-            return {}
+            return;
     }
     handleClickOption = e => {
         const { index, score } = this.state;
@@ -60,7 +66,7 @@ export default class Test extends Component {
         })
     }
     renderQList = () => {
-        const { index, qlist, score } = this.state;
+        const { index, qlist, score, res } = this.state;
         const tmp = qlist[index];
         if (tmp) {
             const title = tmp.title;
@@ -89,8 +95,7 @@ export default class Test extends Component {
                 </View>
             )
         }
-        const res = this.getRes(score);
-        console.log("??", res);
+        this.getRes(score);
         const color = res.color;
         return <View>
             <CircleProgress score={score} progress={score / qlist.length} detail={res.title} color={color} />
@@ -109,10 +114,10 @@ export default class Test extends Component {
 
 
     render() {
-        // const { index, qlist, score } = this.state;
+        const { type } = this.state;
         return <View className="wrap" style={{
         }}>
-            <NavBar title={`量健智能-情绪评测`} />
+            <NavBar title={`量健智能-${this.getType(type)}`} />
             {this.renderQList()}
         </View>
     }

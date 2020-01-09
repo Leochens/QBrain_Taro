@@ -45,9 +45,13 @@ export default class FullTest extends Component {
                     </View>
                 </View>
             </NBTitle>
-            <NBTitle white >
-                <View className="content">
-                    <View >情绪评测</View>
+            <NBTitle white>
+                <View onClick={() => {
+                    Taro.navigateTo({
+                        url: "/pages/full_test/test/test?type=motion"
+                    })
+                }} className="content">
+                    <View>情绪评测</View>
                     <View className="score">
                         <View style={{
                             color: '#999'
