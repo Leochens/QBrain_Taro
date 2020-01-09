@@ -1,0 +1,156 @@
+.title {
+    text-align   : center;
+    font-size    : 34px;
+    color        : rgba(60, 60, 60, 1);
+    // margin    : 20px 0;
+    margin-bottom: 20px;
+}
+
+.main {
+    text-align: left;
+    width: 80vw;
+    margin: 30px auto;
+    .q-tip {
+        height     : 40px;
+        font-size  : 28px;
+        font-weight: 400;
+        color      : rgba(140, 140, 140, 1);
+        line-height: 40px;
+        margin-bottom: 20px;
+    }
+    .q-title {
+
+        height     : 62px;
+        font-size  : 44px;
+        font-weight: 800;
+        color      : rgba(60, 60, 60, 1);
+        line-height: 62px;
+    }
+}
+
+
+.nb-title::before {
+    content : '';
+    display : block;
+    width   : 100%;
+    height  : 100%;
+    border  : 5px solid rgba(27, 124, 213, 1);
+    position: absolute;
+    top     : 8px;
+    left    : 8px;
+}
+
+.wrap {
+    // margin: 20px;
+}
+
+.q-list {
+    margin-top: 50px;
+
+
+    .item {
+        width      : 80vw;
+        display    : flex;
+        align-items: center;
+        margin     : 20px auto;
+        padding    : 5vw;
+        background : rgba(255, 255, 255, 1);
+        font-size  : 32px;
+        font-weight: 400;
+        color      : rgba(27, 124, 213, 1);
+        border     : 2px solid rgba(27, 124, 213, 1);
+        position   : relative;
+    }
+
+    .item::after {
+        content: '';
+        z-index: -1;
+
+        display   : block;
+        position  : absolute;
+        width     : 100%;
+        height    : 100%;
+        background: rgba(220, 226, 232, 1);
+        border    : 2px dashed rgba(27, 124, 213, 1);
+        bottom    : -10px;
+        right     : -10px;
+    }
+}
+
+.progress {
+    margin    : 0 2.5vw;
+    margin-top: 100px;
+    text-align: center;
+    font-size : 23px;
+}
+
+.tip {
+    font-size  : 28px;
+    margin     : 20px auto;
+    width      : 90%;
+    font-weight: 400;
+    color      : #999
+}
+
+.res {
+    font-size  : 48px;
+    margin     : 10px auto;
+    font-weight: 400;
+    width      : 90%;
+
+}
+
+.ljzn {
+    font-size  : 28px;
+    margin     : 20px auto;
+    font-weight: 400;
+    color      : #999;
+    width      : 90%;
+
+}
+
+.advice {
+    font-size  : 34px;
+    margin     : 10px auto;
+    font-weight: 400;
+    color      : rgba(60, 60, 60, 1);
+    line-height: 48px;
+    width      : 90%;
+
+}
+
+.appointment {
+    text-align   : left;
+    height       : 142px;
+    background   : rgba(209, 229, 247, 1);
+    border-radius: 16px;
+    width        : 90%;
+    margin       : 30px auto;
+    display      : flex;
+    align-items  : center;
+    margin-top   : 15px;
+
+    .ap-title,
+    .des {
+        color      : rgba(27, 124, 213, 1);
+        font-size  : 30px;
+        margin-left: 30px;
+    }
+
+    .ap-title {
+        font-weight: 800;
+    }
+
+    .icon {
+        color: rgba(27, 124, 213, 1);
+        width: 12px;
+    }
+}
+
+
+.home-btn {
+    background-color: #247ed2;
+    width           : 80%;
+    margin          : 20px auto;
+    color           : white;
+}
