@@ -32,9 +32,12 @@ export default class Me extends Component {
     componentWillMount(){
         Taro.getStorage({ key: 'phone_number'})
         .then(res=>{
-            this.setState({
-                phoneNumber:res.data
-            })
+            if(res.data != null){
+                this.setState({
+                    phoneNumber:res.data
+                })
+            }
+            
         })
     }
 
@@ -51,11 +54,11 @@ export default class Me extends Component {
                 <Image src={this.props.user.avatarUrl} className="avatar" />
                 <View className="info">
                     <View className="phone">{this.state.phoneNumber}</View>
-                    <View className="edit" onClick={() => {
+                    {/*<View className="edit" onClick={() => {
                         Taro.navigateTo({
                             url: '/pages/edit_info/edit_info'
                         })
-                    }}>编辑信息</View>
+                    }}>编辑信息</View>*/}
                 </View>
             </View>
             <View className="list">
