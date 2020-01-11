@@ -4,6 +4,7 @@ import { AtSteps, AtForm, AtInput, AtButton, AtRadio } from 'taro-ui'
 import NavBar from '../../components/NavBar/NavBar'
 import './Appointment.less'
 import DateSelector from '../../components/DateSelector/DateSelector';
+
 const app = Taro.getApp();
 import { appConfig } from '../../config'
 
@@ -17,7 +18,9 @@ export default class Appointment extends Component {
         gender: null,
         phone: '',
         idCard: '',
-        isloading:false
+        isloading:false,
+
+        selectHospital:'',
     }
     handleSelectDate = date => {
         console.log("用户选择了", date)
@@ -28,8 +31,20 @@ export default class Appointment extends Component {
     handleSelectHospital(e) {
         const { id } = e.target.dataset;
         console.log(id);
+
+        let selectHospital = ''
+
+        if(id==0){
+            selectHospital = '美年大健康（牡丹园店）'
+        }
+
+        if(id==1){
+            selectHospital = '美年大健康（大望路店）'
+        }
+
         this.setState({
-            step: 1
+            step: 1,
+            selectHospital
         })
     }
     renderSelectAddressDate() {
@@ -61,7 +76,7 @@ export default class Appointment extends Component {
                         <View className="address">北京市朝阳区西大望路15号外企大厦B座5层</View>
                         <View className="price">￥2999</View>
                     </View>
-                    <View className="select" data-id={0} onClick={this.handleSelectHospital}>
+                    <View className="select" data-id={1} onClick={this.handleSelectHospital}>
                         选择
                     </View>
                 </View>
@@ -222,7 +237,7 @@ export default class Appointment extends Component {
 
     }
     renderConfirm() {
-        const { name, gender, phone, idCard, date, loading } = this.state;
+        const { name, gender, phone, idCard, date, loading, selectHospital } = this.state;
         return <View className="confirm">
 
             <AtForm
@@ -276,7 +291,7 @@ export default class Appointment extends Component {
                 />
             </AtForm>
             <View className="cur-hospital">
-                <View className="h-title">北京市宣武医院</View>
+                <View className="h-title">{selectHospital}</View>
                 <View className="date">{date}</View>
             </View>
             <View className="line" />

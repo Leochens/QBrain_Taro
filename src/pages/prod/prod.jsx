@@ -5,6 +5,7 @@ import { connect } from '@tarojs/redux'
 import './prod.less'
 import { AtIcon, AtList, AtListItem } from 'taro-ui';
 import Modal from '../../components/Modal/Modal';
+import introPng from '../../images/introduction.png'
 import { appConfig } from '../../config'
 export default class Prod extends Component {
     config = {
@@ -121,10 +122,15 @@ export default class Prod extends Component {
                     <View className="des">查看可预约分院和机构</View>
                     <AtIcon value="chevron-right icon" />
                 </View>
+                <View className="introBlock">
+                <Image src={introPng} class="introPng"/>
+                </View>
+
                 <View className="brain-des">
                     <View className="title">
                         大脑分区功能介绍
                     </View>
+
                     <View className="brain-parts">
                         <View className="item title" >
                             <View className="name">
