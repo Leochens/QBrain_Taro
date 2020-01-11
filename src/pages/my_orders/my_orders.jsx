@@ -4,6 +4,7 @@ import { connect } from '@tarojs/redux'
 import { AtIcon, AtTabBar } from 'taro-ui'
 import NavBar from '../../components/NavBar/NavBar'
 import './my_orders.less'
+import { appConfig } from '../../config'
 
 export default class MyOrders extends Component {
     config = {
@@ -25,8 +26,16 @@ export default class MyOrders extends Component {
                 // }
             ]
         }
+    }
 
+    
+    handleClick = value => {
+        this.setState({
+            current: value
+        })
+    }
 
+    componentWillMount(){
         Date.prototype.format = function(fmt) { 
             var o = { 
                 "M+" : this.getMonth()+1,                 //月份 
@@ -52,7 +61,7 @@ export default class MyOrders extends Component {
         .then(res =>{
             let sessionID = res.data
             return Taro.request({
-                url: 'http://localhost:8899/orders',
+                url: appConfig.apiBaseUrl+'/orders',
                 method:'POST',
                 header: {
                     'content-type': 'application/json', // 默认值
@@ -75,14 +84,8 @@ export default class MyOrders extends Component {
 
             }
         })
-
-
     }
-    handleClick = value => {
-        this.setState({
-            current: value
-        })
-    }
+
     renderList = () => {
         const { current, list } = this.state;
         let res = []

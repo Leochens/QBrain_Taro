@@ -4,6 +4,7 @@ import { Provider } from '@tarojs/redux'
 import Test from './pages/test/test'
 import Index from './pages/index/index'
 import configStore from './store'
+import { appConfig } from './config'
 
 import 'animate.css'
 import './app.less'
@@ -93,28 +94,31 @@ class App extends Component {
   }
 
   componentWillMount(){
-    Taro.getSetting({
-        success(res){
-            if (res.authSetting['scope.userInfo']) {
-                return res
-            }else{
-                return false    
-            }
-        }
-    })
-    .then(res=>{
-        console.log('Taro.getSetting=>',res)
-        return Taro.login({
+    // Taro.getSetting({
+    //     success(res){
+    //         if (res.authSetting['scope.userInfo']) {
+    //             return res
+    //         }else{
+    //             return false    
+    //         }
+    //     }
+    // })
+    // .then(res=>{
+    //     console.log('Taro.getSetting=>',res)
+    //     return 
+    console.log('url=>',appConfig.apiBaseUrl+'/auth')
+    
+
+    Taro.login({
             success(res){
                 return res
             }
-        })
     })
     .then(res=>{
         console.log('Taro.login=>',res)
         if (res.code) {
           return Taro.request({
-            url: 'http://localhost:8899/auth',
+            url: appConfig.apiBaseUrl+'/auth',
             method:'POST',
             data: {
               code: res.code

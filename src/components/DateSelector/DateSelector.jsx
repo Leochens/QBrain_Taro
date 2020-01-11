@@ -60,7 +60,15 @@ export default class DateSelector extends Component {
                 showCalendar: true
             })
             // callback
-            onChangeDate && onChangeDate(this.state.dates[0]);
+            // 判断是否是周六日
+            if (this.isWeekend(this.state.dates[0])) { // 周末
+                return Taro.showToast({
+                    title: '双休日不可选',
+                    icon: 'none'
+                })
+            }else{
+                onChangeDate && onChangeDate(this.state.dates[0]);
+            }
         } else {
             this.setState({
                 showCalendar: false

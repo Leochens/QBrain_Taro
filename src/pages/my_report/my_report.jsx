@@ -4,6 +4,7 @@ import { connect } from '@tarojs/redux'
 import { AtIcon, AtToast } from 'taro-ui'
 import NavBar from '../../components/NavBar/NavBar'
 import './my_report.less'
+import { appConfig } from '../../config'
 
 
 export default class MyReport extends Component {
@@ -59,6 +60,13 @@ export default class MyReport extends Component {
             isloading:false
         }
 
+        
+
+
+    }
+
+
+    componentWillMount(){
         Date.prototype.format = function(fmt) { 
             var o = { 
                 "M+" : this.getMonth()+1,                 //月份 
@@ -84,7 +92,7 @@ export default class MyReport extends Component {
         .then(res =>{
             let sessionID = res.data
             return Taro.request({
-                url: 'http://localhost:8899/orders',
+                url: appConfig.apiBaseUrl+'/orders',
                 method:'POST',
                 header: {
                     'content-type': 'application/json', // 默认值
@@ -102,15 +110,12 @@ export default class MyReport extends Component {
                 })
 
                 this.setState({
-                    list
+                    list:list.filter(e=>e.status==2)
                 })
 
             }
         })
-
-
     }
-
     renderList = () => {
         const { list } = this.state;
 
@@ -119,7 +124,7 @@ export default class MyReport extends Component {
                 return <View className="item" key={index}>
                     <View className="left">
                         <View className="name">{item.name}</View>
-                        <View className="gender">{item.gender}</View>
+                        <View className="gender">{item.gender==0 ? '男' : '女'}</View>
                     </View>
                     <View className="middle">
                         <View className="time">{item.date}</View>

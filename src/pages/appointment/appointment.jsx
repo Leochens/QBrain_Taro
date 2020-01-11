@@ -1,10 +1,11 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Picker } from '@tarojs/components'
 import { AtSteps, AtForm, AtInput, AtButton, AtRadio } from 'taro-ui'
-
+import NavBar from '../../components/NavBar/NavBar'
 import './Appointment.less'
 import DateSelector from '../../components/DateSelector/DateSelector';
 const app = Taro.getApp();
+import { appConfig } from '../../config'
 
 export default class Appointment extends Component {
 
@@ -12,10 +13,11 @@ export default class Appointment extends Component {
         step: 0,
         statusBarHeight: app.state.statusBarHeight,
 
-        name: '冯亮',
+        name: '',
         gender: null,
-        phone: '13204020948',
-        idCard: '142625199203270056',
+        phone: '',
+        idCard: '',
+        isloading:false
     }
     handleSelectDate = date => {
         console.log("用户选择了", date)
@@ -45,8 +47,8 @@ export default class Appointment extends Component {
             <View className="hospital">
                 <View className="item">
                     <View className="detail">
-                        <View className="name">北京市宣武医院</View>
-                        <View className="address">北京市西城区xxxxxxxx</View>
+                        <View className="name">美年大健康（牡丹园店）</View>
+                        <View className="address">北京市海淀区花园北路35号9号楼健康智谷大厦B1</View>
                         <View className="price">￥2999</View>
                     </View>
                     <View className="select" data-id={0} onClick={this.handleSelectHospital}>
@@ -55,8 +57,8 @@ export default class Appointment extends Component {
                 </View>
                 <View className="item">
                     <View className="detail">
-                        <View className="name">北京市宣武医院</View>
-                        <View className="address">北京市西城区xxxxxxxx</View>
+                        <View className="name">美年大健康（大望路店）</View>
+                        <View className="address">北京市朝阳区西大望路15号外企大厦B座5层</View>
                         <View className="price">￥2999</View>
                     </View>
                     <View className="select" data-id={0} onClick={this.handleSelectHospital}>
@@ -113,13 +115,20 @@ export default class Appointment extends Component {
         // console.log(e);
         const { name, gender, phone, idCard, date } = this.state;
         
-        if (!name || !phone || !idCard) {
+
+        if (!name ) {
             return Taro.showToast({
-                title: "请将字段填写完整",
+                title: "请填写姓名",
                 icon: 'none'
             })
         }
 
+        if (!this.testName(name)) {
+            return Taro.showToast({
+                title: "中文名不规范",
+                icon: 'none'
+            })
+        }
 
         if (!gender) {
             return Taro.showToast({
@@ -128,19 +137,29 @@ export default class Appointment extends Component {
             })
         }
 
-        
-        if (!this.testName(name)) {
+        if (!phone ) {
             return Taro.showToast({
-                title: "中文名不规范",
+                title: "请填写手机号",
                 icon: 'none'
             })
         }
+
         if (!this.testPhone(phone)) {
             return Taro.showToast({
-                title: "电话号不正确",
+                title: "手机号不正确",
                 icon: 'none'
             })
         }
+
+
+        if (!idCard ) {
+            return Taro.showToast({
+                title: "请填写身份证号",
+                icon: 'none'
+            })
+        }
+
+        
         if (!this.testIDCard(idCard)) {
             return Taro.showToast({
                 title: "身份证号错误",
@@ -159,11 +178,16 @@ export default class Appointment extends Component {
         console.log('order=>',order)
 
 
+        this.setState({
+            isloading:true
+        })
+
+        let that = this
         Taro.getStorage({ key: 'sessionID'})
         .then(res =>{
             let sessionID = res.data
             return Taro.request({
-                url: 'http://localhost:8899/order',
+                url: appConfig.apiBaseUrl+'/order',
                 method:'POST',
                 header: {
                     'content-type': 'application/json', // 默认值
@@ -175,10 +199,22 @@ export default class Appointment extends Component {
             })
         })
         .then((res)=>{
+            that.setState({
+                isloading:false
+            })
             if(res.data.code==200){
+                // Taro.showToast({
+                //     title: "提交成功",
+                //     icon: 'success'
+                // })
+
+                Taro.navigateTo({
+                  url: '/pages/my_orders/my_orders'
+                })
+            }else{
                 Taro.showToast({
                     title: "提交成功",
-                    icon: 'success'
+                    icon: 'error'
                 })
             }
         })
@@ -186,7 +222,7 @@ export default class Appointment extends Component {
 
     }
     renderConfirm() {
-        const { name, gender, phone, idCard, date } = this.state;
+        const { name, gender, phone, idCard, date, loading } = this.state;
         return <View className="confirm">
 
             <AtForm
@@ -252,7 +288,7 @@ export default class Appointment extends Component {
                         <Text className="float">.00</Text>
                     </View>
                 </View>
-                <View className="btn" onClick={this.onSubmit}>立即支付</View>
+                <View className="btn" onClick={this.onSubmit} disabled={loading}>立即支付</View>
             </View>
 
         </View>
@@ -262,6 +298,7 @@ export default class Appointment extends Component {
         const { step } = this.state;
 
         return <View>
+            <NavBar title="体检预约" />
             <View style={{
                 height: this.state.statusBarHeight,
                 width: '100%',
@@ -270,11 +307,10 @@ export default class Appointment extends Component {
             }}>占位</View>
 
             <View className="wrap">
-                <View className="title">体检预约</View>
                 <View className="step-wrap">
                     <AtSteps current={step} className="step" items={[{ title: '选择地点' }, { title: "确认信息" }]} />
                 </View>
-
+                <AtToast isOpened={this.state.isloading} text="正在处理..." status="loading"></AtToast>
                 {step
                     ? this.renderConfirm()
                     : this.renderSelectAddressDate()}

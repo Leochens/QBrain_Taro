@@ -5,6 +5,7 @@ import { connect } from '@tarojs/redux'
 import './prod.less'
 import { AtIcon, AtList, AtListItem } from 'taro-ui';
 import Modal from '../../components/Modal/Modal';
+import { appConfig } from '../../config'
 export default class Prod extends Component {
     config = {
         navigationBarTitleText: '产品',
@@ -44,7 +45,7 @@ export default class Prod extends Component {
         .then(res =>{
             let sessionID = res.data
             return Taro.request({
-                url: 'http://localhost:8899/number',
+                url: appConfig.apiBaseUrl+'/number',
                 method:'POST',
                 header: {
                     'content-type': 'application/json', // 默认值
