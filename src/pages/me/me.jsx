@@ -24,7 +24,7 @@ export default class Me extends Component {
             statusBarHeight: app.state.statusBarHeight,
             navHeight: app.state.nav.height,
             navMarginTop: app.state.nav.top,
-            phoneNumber: 'xxxxxx'
+            phoneNumber: '************'
         }
 
     }

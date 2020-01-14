@@ -22,9 +22,10 @@ class App extends Component {
 
   config = {
     pages: [
+      'pages/appointment/discount_code/discount_code',
+      'pages/appointment/appointment',
       'pages/me/me',
       'pages/index/index',
-      'pages/appointment/appointment',
       'pages/full_test/test/test',
       'pages/full_test/full_test',
       'pages/edit_info/edit_info',
@@ -93,7 +94,7 @@ class App extends Component {
 
   }
 
-  componentWillMount(){
+  componentWillMount() {
     // Taro.getSetting({
     //     success(res){
     //         if (res.authSetting['scope.userInfo']) {
@@ -106,20 +107,20 @@ class App extends Component {
     // .then(res=>{
     //     console.log('Taro.getSetting=>',res)
     //     return 
-    console.log('url=>',appConfig.apiBaseUrl+'/auth')
-    
+    console.log('url=>', appConfig.apiBaseUrl + '/auth')
+
 
     Taro.login({
-            success(res){
-                return res
-            }
+      success(res) {
+        return res
+      }
     })
-    .then(res=>{
-        console.log('Taro.login=>',res)
+      .then(res => {
+        console.log('Taro.login=>', res)
         if (res.code) {
           return Taro.request({
-            url: appConfig.apiBaseUrl+'/auth',
-            method:'POST',
+            url: appConfig.apiBaseUrl + '/auth',
+            method: 'POST',
             data: {
               code: res.code
             }
@@ -127,19 +128,19 @@ class App extends Component {
         } else {
           throw new Error('登录失败！' + res.errMsg)
         }
-    })
-    .then(res=>{
-        console.log('Taro.request=>',res)
+      })
+      .then(res => {
+        console.log('Taro.request=>', res)
         //获得u_id 和 SID
         const SID = res.data.SID
         const u_id = res.data.u_id
         const phone_number = res.data.phone_number
         Taro.setStorage({ key: 'phone_number', data: phone_number }).then(res => console.log('setStorage->phone_number'))
         Taro.setStorage({ key: 'sessionID', data: SID }).then(res => console.log('setStorage->sessionID'))
-    })
-    .catch(err=>{
+      })
+      .catch(err => {
         console.log(err)
-    })
+      })
   }
 
   componentDidShow() { }
