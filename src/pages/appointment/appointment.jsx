@@ -18,12 +18,40 @@ export default class Appointment extends Component {
         gender: null,
         phone: '',
         idCard: '',
-        isloading:false,
+        isloading: false,
 
-        selectHospital:'',
+        selectHospital: '',
+
+        hospitals: [
+            {
+                name: '美年大健康（牡丹园店）',
+                des: "北京市海淀区花园北路35号9号楼健康智谷大厦B1",
+                price: '￥2999'
+            },
+            {
+                name: '美年大健康（大望路店）',
+                des: "北京市朝阳区西大望路15号外企大厦B座5层",
+                price: '￥2999'
+            },
+        ]
+
+    }
+
+    renderHospitals = () => {
+        const { hospitals } = this.state;
+
+        return hospitals.map((item, idx) => <View className="item">
+            <View className="detail">
+                <View className="name">{item.name}</View>
+                <View className="address">{item.des}</View>
+                <View className="price">{item.price}</View>
+            </View>
+            <View className="select" data-id={idx} onClick={this.handleSelectHospital}>
+                选择
+        </View>
+        </View>)
     }
     handleSelectDate = date => {
-        console.log("用户选择了", date)
         this.setState({
             date
         })
@@ -31,20 +59,10 @@ export default class Appointment extends Component {
     handleSelectHospital(e) {
         const { id } = e.target.dataset;
         console.log(id);
-
-        let selectHospital = ''
-
-        if(id==0){
-            selectHospital = '美年大健康（牡丹园店）'
-        }
-
-        if(id==1){
-            selectHospital = '美年大健康（大望路店）'
-        }
-
+        const { hospitals } = this.state;
         this.setState({
             step: 1,
-            selectHospital
+            selectHospital: hospitals[id].name
         })
     }
     renderSelectAddressDate() {
@@ -60,26 +78,7 @@ export default class Appointment extends Component {
                 <DateSelector onChangeDate={this.handleSelectDate} />
             </View>
             <View className="hospital">
-                <View className="item">
-                    <View className="detail">
-                        <View className="name">美年大健康（牡丹园店）</View>
-                        <View className="address">北京市海淀区花园北路35号9号楼健康智谷大厦B1</View>
-                        <View className="price">￥2999</View>
-                    </View>
-                    <View className="select" data-id={0} onClick={this.handleSelectHospital}>
-                        选择
-                    </View>
-                </View>
-                <View className="item">
-                    <View className="detail">
-                        <View className="name">美年大健康（大望路店）</View>
-                        <View className="address">北京市朝阳区西大望路15号外企大厦B座5层</View>
-                        <View className="price">￥2999</View>
-                    </View>
-                    <View className="select" data-id={1} onClick={this.handleSelectHospital}>
-                        选择
-                    </View>
-                </View>
+                {this.renderHospitals()}
             </View>
 
         </View>
@@ -129,9 +128,9 @@ export default class Appointment extends Component {
     onSubmit = (e) => {
         // console.log(e);
         const { name, gender, phone, idCard, date } = this.state;
-        
 
-        if (!name ) {
+
+        if (!name) {
             return Taro.showToast({
                 title: "请填写姓名",
                 icon: 'none'
@@ -152,7 +151,7 @@ export default class Appointment extends Component {
             })
         }
 
-        if (!phone ) {
+        if (!phone) {
             return Taro.showToast({
                 title: "请填写手机号",
                 icon: 'none'
@@ -167,14 +166,14 @@ export default class Appointment extends Component {
         }
 
 
-        if (!idCard ) {
+        if (!idCard) {
             return Taro.showToast({
                 title: "请填写身份证号",
                 icon: 'none'
             })
         }
 
-        
+
         if (!this.testIDCard(idCard)) {
             return Taro.showToast({
                 title: "身份证号错误",
@@ -187,52 +186,52 @@ export default class Appointment extends Component {
         let hospital = '宣武医院'
 
         let order = {
-            name, gender, phone, idCard, date,code,hospital
+            name, gender, phone, idCard, date, code, hospital
         }
 
-        console.log('order=>',order)
+        console.log('order=>', order)
 
 
         this.setState({
-            isloading:true
+            isloading: true
         })
 
         let that = this
-        Taro.getStorage({ key: 'sessionID'})
-        .then(res =>{
-            let sessionID = res.data
-            return Taro.request({
-                url: appConfig.apiBaseUrl+'/order',
-                method:'POST',
-                header: {
-                    'content-type': 'application/json', // 默认值
-                    "cookie": sessionID
-                },
-                data: {
-                  order
+        Taro.getStorage({ key: 'sessionID' })
+            .then(res => {
+                let sessionID = res.data
+                return Taro.request({
+                    url: appConfig.apiBaseUrl + '/order',
+                    method: 'POST',
+                    header: {
+                        'content-type': 'application/json', // 默认值
+                        "cookie": sessionID
+                    },
+                    data: {
+                        order
+                    }
+                })
+            })
+            .then((res) => {
+                that.setState({
+                    isloading: false
+                })
+                if (res.data.code == 200) {
+                    // Taro.showToast({
+                    //     title: "提交成功",
+                    //     icon: 'success'
+                    // })
+
+                    Taro.navigateTo({
+                        url: '/pages/my_orders/my_orders'
+                    })
+                } else {
+                    Taro.showToast({
+                        title: "提交成功",
+                        icon: 'error'
+                    })
                 }
             })
-        })
-        .then((res)=>{
-            that.setState({
-                isloading:false
-            })
-            if(res.data.code==200){
-                // Taro.showToast({
-                //     title: "提交成功",
-                //     icon: 'success'
-                // })
-
-                Taro.navigateTo({
-                  url: '/pages/my_orders/my_orders'
-                })
-            }else{
-                Taro.showToast({
-                    title: "提交成功",
-                    icon: 'error'
-                })
-            }
-        })
 
 
     }
