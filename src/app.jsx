@@ -22,10 +22,10 @@ class App extends Component {
 
   config = {
     pages: [
+      'pages/index/index',
       'pages/appointment/discount_code/discount_code',
       'pages/appointment/appointment',
       'pages/me/me',
-      'pages/index/index',
       'pages/full_test/test/test',
       'pages/full_test/full_test',
       'pages/edit_info/edit_info',

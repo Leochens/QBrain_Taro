@@ -274,7 +274,11 @@ export default class Appointment extends Component {
                 <View className="date">{date}</View>
             </View>
 
-            <View className="discount-code">
+            <View className="discount-code" onClick={()=>{
+                Taro.navigateTo({
+                    url:'/pages/appointment/discount_code/discount_code'
+                })
+            }}>
                 <View className="d-title">优惠码</View>
                 <AtIcon className="d-icon" value="chevron-right" />
             </View>
