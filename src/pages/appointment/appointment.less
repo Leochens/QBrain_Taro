@@ -53,16 +53,21 @@
             padding        : 30px 0;
             border-bottom  : 1px solid #eee;
 
+            .full-ap {
+                color: red;
+            }
+
             .detail {
                 width: 500px;
+
                 .name {
                     font-size    : 36px;
                     margin-bottom: 10px;
                 }
 
                 .address {
-                    font-size: 30px;
-                    color    : #999;
+                    font-size : 30px;
+                    color     : #999;
                     word-break: break-all;
                 }
 
@@ -73,14 +78,19 @@
             }
 
             .select {
-                width        : 140px;
-                height       : 80px;
-                border-radius: 6px;
-                border       : 2px solid rgba(27, 124, 213, 1);
-                color        : rgba(27, 124, 213, 1);
-                text-align   : center;
-                line-height  : 80px;
-                font-size    : 28px;
+                width           : 140px;
+                height          : 80px;
+                border-radius   : 6px;
+                border          : 2px solid rgba(27, 124, 213, 1);
+                color           : rgba(27, 124, 213, 1);
+                text-align      : center;
+                line-height     : 80px;
+                font-size       : 28px;
+                background-color: #fff;
+            }
+
+            .disabled {
+                opacity: 0.5;
             }
         }
     }
@@ -147,11 +157,11 @@
 
 .line {
     height    : 10px;
-    width: 100vw;
+    width     : 100vw;
     background: #fff;
 }
 
-.picker{
-    padding: 24px 0;
+.picker {
+    padding    : 24px 0;
     margin-left: 32px;
 }

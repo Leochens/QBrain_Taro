@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Picker } from '@tarojs/components'
+import { View, Picker, Button } from '@tarojs/components'
 import { AtSteps, AtForm, AtInput, AtButton, AtRadio } from 'taro-ui'
 import NavBar from '../../components/NavBar/NavBar'
 import './Appointment.less'
@@ -27,12 +27,14 @@ export default class Appointment extends Component {
             {
                 name: '美年大健康（牡丹园店）',
                 des: "北京市海淀区花园北路35号9号楼健康智谷大厦B1",
-                price: '￥2999'
+                price: '￥2999',
+                count: 0
             },
             {
                 name: '美年大健康（大望路店）',
                 des: "北京市朝阳区西大望路15号外企大厦B座5层",
-                price: '￥2999'
+                price: '￥2999',
+                count: 20
             },
         ]
 
@@ -45,11 +47,11 @@ export default class Appointment extends Component {
             <View className="detail">
                 <View className="name">{item.name}</View>
                 <View className="address">{item.des}</View>
-                <View className="price">{item.price}</View>
+                <View className="price">{item.price} <Text className="full-ap" hidden={item.count}>约满</Text></View>
             </View>
-            <View className="select" data-id={idx} onClick={this.handleSelectHospital}>
+            <Button disabled={!item.count} className={`select ${item.count?'':'disabled'}`} data-id={idx} onClick={this.handleSelectHospital}>
                 选择
-        </View>
+        </Button>
         </View>)
     }
     handleSelectDate = date => {
