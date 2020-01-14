@@ -4,15 +4,18 @@
 	"description": "QBrain小程序",
 	"appid": "wxa3dd15ba5183699f",
 	"setting": {
-		"urlCheck": false,
-		"es6": false,
-		"postcss": false,
-		"minified": false,
+		"urlCheck": true,
+		"es6": true,
+		"enhance": true,
+		"postcss": true,
+		"minified": true,
 		"newFeature": true,
 		"coverView": true,
+		"nodeModules": false,
 		"autoAudits": false,
 		"showShadowRootInWxmlPanel": true,
 		"scopeDataCheck": false,
+		"uglifyFileName": false,
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
 		"uploadWithSourceMap": true,
@@ -25,6 +28,7 @@
 	"compileType": "miniprogram",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
+	"libVersion": "2.10.0",
 	"condition": {
 		"search": {
 			"current": -1,
@@ -52,6 +56,34 @@
 					"id": -1,
 					"name": "pages/prod/prod",
 					"pathName": "pages/prod/prod",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/appointment/appointment",
+					"pathName": "pages/appointment/appointment",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/index/index",
+					"pathName": "pages/index/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/my_orders/my_orders",
+					"pathName": "pages/my_orders/my_orders",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/my_report/my_report",
+					"pathName": "pages/my_report/my_report",
 					"scene": null
 				}
 			]
