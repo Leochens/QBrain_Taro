@@ -22,6 +22,7 @@ class App extends Component {
 
   config = {
     pages: [
+      'pages/appointment/appointment',
       'pages/index/index',
       'pages/full_test/test/test',
       'pages/full_test/full_test',
@@ -29,7 +30,6 @@ class App extends Component {
       'pages/add_member/add_member',
       'pages/my_orders/my_orders',
       'pages/my_report/my_report',
-      'pages/appointment/appointment',
       'pages/quicktest/quicktest',
       'pages/prod/prod',
       'pages/me/me',

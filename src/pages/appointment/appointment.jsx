@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Picker, Button } from '@tarojs/components'
-import { AtSteps, AtForm, AtInput, AtButton, AtRadio } from 'taro-ui'
+import { AtSteps, AtForm, AtInput, AtButton, AtRadio, AtIcon } from 'taro-ui'
 import NavBar from '../../components/NavBar/NavBar'
 import './Appointment.less'
 import DateSelector from '../../components/DateSelector/DateSelector';
@@ -22,6 +22,7 @@ export default class Appointment extends Component {
         isloading: false,
 
         selectHospital: '',
+        isAgree: true,
 
         hospitals: [
             {
@@ -49,7 +50,7 @@ export default class Appointment extends Component {
                 <View className="address">{item.des}</View>
                 <View className="price">{item.price} <Text className="full-ap" hidden={item.count}>约满</Text></View>
             </View>
-            <Button disabled={!item.count} className={`select ${item.count?'':'disabled'}`} data-id={idx} onClick={this.handleSelectHospital}>
+            <Button disabled={!item.count} className={`select ${item.count ? '' : 'disabled'}`} data-id={idx} onClick={this.handleSelectHospital}>
                 选择
         </Button>
         </View>)
@@ -72,10 +73,8 @@ export default class Appointment extends Component {
         return <View className="select-address-date">
 
             <View className="city">
-                北京市
-                <View className="at-col">
-                    <AtIcon className="icon" value="chevron-right" />
-                </View>
+                <View>北京市</View>
+                <AtIcon className="icon" value="chevron-right" />
             </View>
             <View className="select-date">
                 <DateSelector onChangeDate={this.handleSelectDate} />
@@ -195,8 +194,13 @@ export default class Appointment extends Component {
 
 
     }
+    toggleAgree = () => {
+        this.setState({
+            isAgree: !this.state.isAgree
+        })
+    }
     renderConfirm() {
-        const { name, gender, phone, idCard, date, loading, selectHospital } = this.state;
+        const { name, gender, phone, idCard, date, loading, selectHospital, isAgree } = this.state;
         return <View className="confirm">
 
             <AtForm
@@ -253,17 +257,36 @@ export default class Appointment extends Component {
                 <View className="h-title">{selectHospital}</View>
                 <View className="date">{date}</View>
             </View>
+
+            <View className="discount-code">
+                <View className="d-title">优惠码</View>
+                <AtIcon className="d-icon" value="chevron-right" />
+            </View>
             <View className="line" />
-            <View className="order">
-                <View className="price">
-                    <View>
-                        总计：
-                        <Text className="int">2999</Text>
-                        <Text className="float">.00</Text>
+
+            <View className="bottom">
+                <View className="tip">
+                    <AtIcon onClick={this.toggleAgree} size={16} className={`icon ${isAgree ? 'check' : ''}`} value="check-circle" />
+                    <View className="doc">
+                        我同意
+                        <Text className="content" onClick={() => { }}>《脑健康体检知情同意书》</Text>
                     </View>
                 </View>
-                <View className="btn" onClick={this.onSubmit} disabled={loading}>立即支付</View>
+                <View className="order">
+                    <View className="price">
+                        <View>
+                            总计：
+                        <Text className="int">2999</Text>
+                            <Text className="float">.00</Text>
+                        </View>
+                    </View>
+                    <Button disabled={!isAgree} style={{
+                        backgroundColor: isAgree ? '' : '#eee',
+                        color: isAgree ? '' : '#999',
+                    }} className="btn" onClick={this.onSubmit}>立即支付</Button>
+                </View>
             </View>
+
 
         </View>
 

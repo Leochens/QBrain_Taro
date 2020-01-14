@@ -34,7 +34,8 @@
         padding         : 36px;
         margin-bottom   : 20px;
         background-color: #fff;
-
+        display         : flex;
+        justify-content : space-between;
     }
 
     .select-date {
@@ -115,50 +116,103 @@
     }
 }
 
-.order {
+.discount-code {
     display         : flex;
-    height          : 122px;
+    padding         : 30px 50px;
+    justify-content : space-between;
+    align-items     : center;
+    background-color: #fff;
+
+    .d-title {
+        font-weight: bold;
+        font-size  : 32px;
+        line-height: 52px;
+    }
+
+    .d-icon {
+        margin-right: 30px;
+        font-size   : 32px;
+
+    }
+}
+
+.bottom {
     background-color: #fff;
     position        : fixed;
     bottom          : 0;
     left            : 0;
     right           : 0;
 
-    .price {
-        flex         : 2;
-        border-top   : 1px solid #E5E7EF;
-        border-bottom: 1px solid #E5E7EF;
-        height       : 120px;
-        color        : #1B7CD5;
-        padding      : 0 0 0 44px;
-        display      : flex;
-        align-items  : center;
+    .tip {
+        font-size      : 25px;
+        display        : flex;
+        justify-content: center;
+        align-items    : center;
+        padding        : 20px 30px;
+        border-top     : 1px solid #eee;
 
-        .int {
-            font-size: 48px;
+        .icon {
+            margin-right: 10px;
+            font-weight : bold;
+            color       : #999;
         }
 
-        .float {
-            font-size: 28px;
+        .check {
+            color: rgba(27, 124, 213, 1);
+        }
+
+        .doc {
+
+            .content {
+                color: rgba(27, 124, 213, 1);
+
+            }
         }
     }
 
-    .btn {
-        flex       : 1;
-        height     : 100%;
-        background : rgba(27, 124, 213, 1);
-        text-align : center;
-        font-size  : 36px;
-        line-height: 122px;
-        color      : white;
+    .order {
+        height : 122px;
+        display: flex;
+
+        .price {
+            flex         : 2;
+            border-top   : 1px solid #E5E7EF;
+            border-bottom: 1px solid #E5E7EF;
+            height       : 120px;
+            color        : #1B7CD5;
+            padding      : 0 0 0 44px;
+            display      : flex;
+            align-items  : center;
+
+            .int {
+                font-size: 48px;
+            }
+
+            .float {
+                font-size: 28px;
+            }
+        }
+
+        .btn {
+            flex       : 1;
+            height     : 100%;
+            background : rgba(27, 124, 213, 1);
+            text-align : center;
+            font-size  : 36px;
+            line-height: 122px;
+            color      : white;
+        }
     }
+
 }
 
 
 .line {
-    height    : 10px;
+    height    : 20px;
     width     : 100vw;
-    background: #fff;
+    background: rgba(229, 231, 239, 0.5);
+
+    color: transparent;
 }
 
 .picker {
