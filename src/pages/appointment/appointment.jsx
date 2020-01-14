@@ -4,7 +4,7 @@ import { AtSteps, AtForm, AtInput, AtButton, AtRadio, AtIcon } from 'taro-ui'
 import NavBar from '../../components/NavBar/NavBar'
 import './Appointment.less'
 import DateSelector from '../../components/DateSelector/DateSelector';
-import { REG } from '../../utils'
+import { REG, getAgeByIdCard } from '../../utils'
 const { testIDCard, testName, testPhone } = REG;
 const app = Taro.getApp();
 import { appConfig } from '../../config'
@@ -23,19 +23,28 @@ export default class Appointment extends Component {
 
         selectHospital: '',
         isAgree: true,
+        isAgeOutRange: false,
 
         hospitals: [
             {
                 name: '美年大健康（牡丹园店）',
-                des: "北京市海淀区花园北路35号9号楼健康智谷大厦B1",
+                address: "北京市海淀区花园北路35号9号楼健康智谷大厦B1",
                 price: '￥2999',
-                count: 0
+                count: 0,
+                work_time: '',
+                phone: ''
+
+
             },
             {
                 name: '美年大健康（大望路店）',
-                des: "北京市朝阳区西大望路15号外企大厦B座5层",
+                address: "北京市朝阳区西大望路15号外企大厦B座5层",
                 price: '￥2999',
-                count: 20
+                count: 20,
+                work_time: '',
+                phone: ''
+
+
             },
         ]
 
@@ -47,7 +56,7 @@ export default class Appointment extends Component {
         return hospitals.map((item, idx) => <View className="item">
             <View className="detail">
                 <View className="name">{item.name}</View>
-                <View className="address">{item.des}</View>
+                <View className="address">{item.address}</View>
                 <View className="price">{item.price} <Text className="full-ap" hidden={item.count}>约满</Text></View>
             </View>
             <Button disabled={!item.count} className={`select ${item.count ? '' : 'disabled'}`} data-id={idx} onClick={this.handleSelectHospital}>
@@ -132,12 +141,18 @@ export default class Appointment extends Component {
             })
         }
 
-
         if (!testIDCard(idCard)) {
             return Taro.showToast({
                 title: "身份证号错误",
                 icon: 'none'
             })
+        }
+        const age = getAgeByIdCard(idCard);
+        if (age > 75 || age < 17) {
+            this.setState({
+                isAgeOutRange: true
+            })
+            return;
         }
 
 
@@ -200,7 +215,7 @@ export default class Appointment extends Component {
         })
     }
     renderConfirm() {
-        const { name, gender, phone, idCard, date, loading, selectHospital, isAgree } = this.state;
+        const { name, gender, phone, idCard, date, isAgeOutRange, selectHospital, isAgree } = this.state;
         return <View className="confirm">
 
             <AtForm
@@ -248,7 +263,8 @@ export default class Appointment extends Component {
                     value={idCard}
                     onChange={(e) => {
                         this.setState({
-                            idCard: e
+                            idCard: e,
+                            isAgeOutRange: false
                         })
                     }}
                 />
@@ -265,6 +281,7 @@ export default class Appointment extends Component {
             <View className="line" />
 
             <View className="bottom">
+                <View className="age-out-range" hidden={!isAgeOutRange}>您的年龄不在适用范围</View>
                 <View className="tip">
                     <AtIcon onClick={this.toggleAgree} size={16} className={`icon ${isAgree ? 'check' : ''}`} value="check-circle" />
                     <View className="doc">
@@ -281,7 +298,7 @@ export default class Appointment extends Component {
                         </View>
                     </View>
                     <Button disabled={!isAgree} style={{
-                        backgroundColor: isAgree ? '' : '#eee',
+                        backgroundColor: isAgree ? '' : 'rgba(179,183,186,1);',
                         color: isAgree ? '' : '#999',
                     }} className="btn" onClick={this.onSubmit}>立即支付</Button>
                 </View>

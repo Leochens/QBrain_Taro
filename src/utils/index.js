@@ -54,3 +54,21 @@ export const REG = {
     testIDCard,
     testPhone
 }
+
+export const getAgeByIdCard = card => {
+    const myDate = new Date();
+
+    const month = myDate.getMonth() + 1;
+
+    const day = myDate.getDate();
+
+    let age = myDate.getFullYear() - card.substring(6, 10) - 1;
+
+    if (card.substring(10, 12) < month || card.substring(10, 12) == month && card.substring(12, 14) <= day) {
+
+        age++;
+
+    }
+
+    return age;
+}
