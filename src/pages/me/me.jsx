@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Button, Text } from '@tarojs/components'
+import { View, Button, Text, Label } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import avatar from '../../images/avatar.png'
 
@@ -26,19 +26,19 @@ export default class Me extends Component {
             navMarginTop: app.state.nav.top,
             phoneNumber: 'xxxxxx'
         }
-        
+
     }
 
-    componentWillMount(){
-        Taro.getStorage({ key: 'phone_number'})
-        .then(res=>{
-            if(res.data != null){
-                this.setState({
-                    phoneNumber:res.data
-                })
-            }
-            
-        })
+    componentWillMount() {
+        Taro.getStorage({ key: 'phone_number' })
+            .then(res => {
+                if (res.data != null) {
+                    this.setState({
+                        phoneNumber: res.data
+                    })
+                }
+
+            })
     }
 
     render() {
@@ -70,7 +70,7 @@ export default class Me extends Component {
                     我的报告
                     <AtIcon className="icon" value="chevron-right" />
                 </View>
-                <View className="item" onClick={() => {
+                <View className="item border" onClick={() => {
                     Taro.navigateTo({
                         url: '/pages/my_orders/my_orders'
                     })
@@ -78,6 +78,15 @@ export default class Me extends Component {
                     我的订单
                     <AtIcon className="icon" value="chevron-right" />
                 </View>
+                <View>
+                    <Button id="contact" hidden={true} openType="contact">he
+                    </Button>
+                    <Label for="contact" className="item">
+                        联系客服
+                        <AtIcon className="icon" value="chevron-right" />
+                    </Label>
+                </View>
+
             </View>
         </View>
     }
