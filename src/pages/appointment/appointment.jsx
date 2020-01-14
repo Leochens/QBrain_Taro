@@ -59,9 +59,9 @@ export default class Appointment extends Component {
                 <View className="address">{item.address}</View>
                 <View className="price">{item.price} <Text className="full-ap" hidden={item.count}>约满</Text></View>
             </View>
-            <Button disabled={!item.count} className={`select ${item.count ? '' : 'disabled'}`} data-id={idx} onClick={this.handleSelectHospital}>
+            <View className={`select ${item.count ? '' : 'disabled'}`} data-id={idx} onClick={item.count ? e=>this.handleSelectHospital(e) : () => { }}>
                 选择
-        </Button>
+        </View>
         </View>)
     }
     handleSelectDate = date => {
@@ -274,9 +274,9 @@ export default class Appointment extends Component {
                 <View className="date">{date}</View>
             </View>
 
-            <View className="discount-code" onClick={()=>{
+            <View className="discount-code" onClick={() => {
                 Taro.navigateTo({
-                    url:'/pages/appointment/discount_code/discount_code'
+                    url: '/pages/appointment/discount_code/discount_code'
                 })
             }}>
                 <View className="d-title">优惠码</View>
