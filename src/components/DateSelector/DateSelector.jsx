@@ -32,17 +32,19 @@ export default class DateSelector extends Component {
         const m = dd.getMonth() + 1 < 10 ? "0" + (dd.getMonth() + 1) : dd.getMonth() + 1;
         const d = dd.getDate() < 10 ? "0" + dd.getDate() : dd.getDate();
         const date = y + '-' + m + "-" + d;
-        if ([0, 1, 2].includes(dd.getDay())) { // 周日 周一 周二 可以顺延三天
-            return [1, 2, 3].map(d => this.getNextDate(date, d));
-        } else if (dd.getDay() === 3) { // 周三
-            return [1, 2, 5].map(d => this.getNextDate(date, d));
-        } else if (dd.getDay() === 4) { // 周四
-            return [1, 4, 5].map(d => this.getNextDate(date, d));
-        } else if (dd.getDay() === 5) { // 周五
-            return [3, 4, 5].map(d => this.getNextDate(date, d));
-        } else { // 周六
-            return [2, 3, 4].map(d => this.getNextDate(date, d));
-        }
+        return [1, 2, 3].map(d => this.getNextDate(date, d));
+
+        // if ([0, 1, 2].includes(dd.getDay())) { // 周日 周一 周二 可以顺延三天
+        //     return [1, 2, 3].map(d => this.getNextDate(date, d));
+        // } else if (dd.getDay() === 3) { // 周三
+        //     return [1, 2, 5].map(d => this.getNextDate(date, d));
+        // } else if (dd.getDay() === 4) { // 周四
+        //     return [1, 4, 5].map(d => this.getNextDate(date, d));
+        // } else if (dd.getDay() === 5) { // 周五
+        //     return [3, 4, 5].map(d => this.getNextDate(date, d));
+        // } else { // 周六
+        //     return [2, 3, 4].map(d => this.getNextDate(date, d));
+        // }
     };
     hide = () => {
         this.setState({
@@ -61,14 +63,14 @@ export default class DateSelector extends Component {
             })
             // callback
             // 判断是否是周六日
-            if (this.isWeekend(this.state.dates[0])) { // 周末
-                return Taro.showToast({
-                    title: '双休日不可选',
-                    icon: 'none'
-                })
-            }else{
-                onChangeDate && onChangeDate(this.state.dates[0]);
-            }
+            // if (this.isWeekend(this.state.dates[0])) { // 周末
+            //     return Taro.showToast({
+            //         title: '双休日不可选',
+            //         icon: 'none'
+            //     })
+            // }else{
+            onChangeDate && onChangeDate(this.state.dates[0]);
+            // }
         } else {
             this.setState({
                 showCalendar: false
@@ -87,12 +89,12 @@ export default class DateSelector extends Component {
         // console.log(e);
         const dates = this.state.dates.slice();
         const { start } = e.value;
-        if (this.isWeekend(start)) { // 周末
-            return Taro.showToast({
-                title: '双休日不可选',
-                icon: 'none'
-            })
-        }
+        // if (this.isWeekend(start)) { // 周末
+        //     return Taro.showToast({
+        //         title: '双休日不可选',
+        //         icon: 'none'
+        //     })
+        // }
         dates[dates.length - 1] = start
         this.setState({
             dates
@@ -145,7 +147,7 @@ export default class DateSelector extends Component {
                         width: '100vw'
                     }}
                     onSelectDate={this.handelSelectDate}
-                    minDate={this.getNextThreeDate()[0]} currentDate={this.getNextThreeDate()[0]} />
+                    minDate={this.getNextThreeDate()[0]} maxDate={this.getNextDate(new Date(), 90)} currentDate={this.getNextThreeDate()[0]} />
             </GenModal>
         </View>
     }

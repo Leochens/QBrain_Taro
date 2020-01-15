@@ -49,7 +49,9 @@ export default class Appointment extends Component {
         ]
 
     }
+    componentDidMount() {
 
+    }
     renderHospitals = () => {
         const { hospitals } = this.state;
 
@@ -57,14 +59,41 @@ export default class Appointment extends Component {
             <View className="detail">
                 <View className="name">{item.name}</View>
                 <View className="address">{item.address}</View>
-                <View className="price">{item.price} <Text className="full-ap" hidden={item.count}>约满</Text></View>
+                <View className="price">￥{item.price} <Text className="full-ap" hidden={item.count}>约满</Text></View>
             </View>
-            <View className={`select ${item.count ? '' : 'disabled'}`} data-id={idx} onClick={item.count ? e=>this.handleSelectHospital(e) : () => { }}>
+            <View className={`select ${item.count ? '' : 'disabled'}`} data-id={idx} onClick={item.count ? e => this.handleSelectHospital(e) : () => { }}>
                 选择
         </View>
         </View>)
     }
     handleSelectDate = date => {
+
+        Taro.getStorage({ key: 'sessionID' })
+            .then(res => {
+                let sessionID = res.data
+                return Taro.request({
+                    url: appConfig.apiBaseUrl + '/institutions',
+                    data: {
+                        date
+                    },
+                    method: 'POST',
+                    header: {
+                        'content-type': 'application/json', // 默认值
+                        "cookie": sessionID
+                    },
+                })
+            })
+            .then((res) => {
+                if (res.data.code == 200) {
+                    console.log('Taro.request->ins=>', res.data)
+                    let list = res.data.data
+
+                    this.setState({
+                        hospitals: list
+                    })
+
+                }
+            })
         this.setState({
             date
         })
