@@ -5,6 +5,7 @@ import { AtIcon, AtTabBar, AtButton } from 'taro-ui'
 import NavBar from '../../components/NavBar/NavBar'
 import './my_orders.less'
 import { appConfig } from '../../config'
+import pay from '../../utils/payment'
 
 export default class MyOrders extends Component {
     config = {
@@ -80,12 +81,16 @@ export default class MyOrders extends Component {
     getStatus = status => {
         let res = ''
         switch (status) {
-            case 0: res = '待付款'; break;
+            case 0: res = '待付款,点击付款'; break;
             case 1: res = '待服务'; break;
             case 2: res = '已完成'; break;
             default: break;
         }
         return res;
+    }
+    rePay = (order) => {
+        console.log(order);
+        pay(order, '/pay', true)
     }
     renderList = () => {
         const { current, list } = this.state;
@@ -108,10 +113,10 @@ export default class MyOrders extends Component {
 
         return res.length
             ? res.map((item, idx) => {
-                return <View className="list-item" key={item.id}>
+                return <View className="list-item" key={item.id} >
                     <View className="title">
                         <View className="left">关爱大脑健康套餐</View>
-                        <View className="right">{this.getStatus(item.status)}</View>
+                        <View className="right" onClick={!item.status ? () => this.rePay(item) : () => { }}>{this.getStatus(item.status)}</View>
                     </View>
 
                     <View className="fields">
