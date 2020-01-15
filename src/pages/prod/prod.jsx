@@ -13,7 +13,9 @@ export default class Prod extends Component {
         navigationBarTextStyle: "black"
 
     }
+    onShareAppMessage() {
 
+    }
     constructor(props) {
         super(props);
         const app = Taro.getApp();
@@ -31,45 +33,45 @@ export default class Prod extends Component {
         })
     }
     gotoAppointment() {
-        
+
     }
 
     getPhoneNumber(e) {
-      console.log(`是否成功调用${e.detail.errMsg}`);
-      console.log(`加密算法的初始向量:${e.detail.iv}`);
-      console.log(`包括敏感数据在内的完整用户信息的加密数据:${e.detail.encryptedData}`);
+        console.log(`是否成功调用${e.detail.errMsg}`);
+        console.log(`加密算法的初始向量:${e.detail.iv}`);
+        console.log(`包括敏感数据在内的完整用户信息的加密数据:${e.detail.encryptedData}`);
 
-      if(e.detail.iv && e.detail.encryptedData){
-        let endata = { iv:e.detail.iv, encryptedData:e.detail.encryptedData}  
+        if (e.detail.iv && e.detail.encryptedData) {
+            let endata = { iv: e.detail.iv, encryptedData: e.detail.encryptedData }
 
-        Taro.getStorage({ key: 'sessionID'})
-        .then(res =>{
-            let sessionID = res.data
-            return Taro.request({
-                url: appConfig.apiBaseUrl+'/number',
-                method:'POST',
-                header: {
-                    'content-type': 'application/json', // 默认值
-                    "cookie": sessionID
-                },
-                data: {
-                  endata: endata
-                }
-            })
-        })
-        .then(res=>{
-            console.log('Taro.resquest->update phoneNumber=>',res)
-            if(typeof res.data.phoneNumber !== 'undefined'){
-                Taro.navigateTo({
-                    url: '/pages/appointment/appointment'
+            Taro.getStorage({ key: 'sessionID' })
+                .then(res => {
+                    let sessionID = res.data
+                    return Taro.request({
+                        url: appConfig.apiBaseUrl + '/number',
+                        method: 'POST',
+                        header: {
+                            'content-type': 'application/json', // 默认值
+                            "cookie": sessionID
+                        },
+                        data: {
+                            endata: endata
+                        }
+                    })
                 })
-            }
+                .then(res => {
+                    console.log('Taro.resquest->update phoneNumber=>', res)
+                    if (typeof res.data.phoneNumber !== 'undefined') {
+                        Taro.navigateTo({
+                            url: '/pages/appointment/appointment'
+                        })
+                    }
 
-        })
+                })
 
-      }
-      
-    } 
+        }
+
+    }
 
     render() {
         return <View>
@@ -123,7 +125,7 @@ export default class Prod extends Component {
                     <AtIcon value="chevron-right icon" />
                 </View>
                 <View className="introBlock">
-                <Image src={introPng} class="introPng"/>
+                    <Image src={introPng} class="introPng" />
                 </View>
 
                 <View className="brain-des">

@@ -24,7 +24,7 @@ export default class Appointment extends Component {
         selectHospital: '',
         isAgree: true,
         isAgeOutRange: false,
-
+        dt: 1,
         hospitals: [
             {
                 name: '美年大健康（牡丹园店）',
@@ -123,7 +123,12 @@ export default class Appointment extends Component {
 
         </View>
     }
-
+    componentDidShow() {
+        console.log('LLL', this.state);
+        this.setState({
+            dt: this.state.dt
+        })
+    }
     onSubmit = (e) => {
         // console.log(e);
         const { name, gender, phone, idCard, date } = this.state;
@@ -244,7 +249,7 @@ export default class Appointment extends Component {
         })
     }
     renderConfirm() {
-        const { name, gender, phone, idCard, date, isAgeOutRange, selectHospital, isAgree } = this.state;
+        const { name, gender, phone, idCard, date, isAgeOutRange, selectHospital, isAgree, dt } = this.state;
         return <View className="confirm">
 
             <AtForm
@@ -308,7 +313,7 @@ export default class Appointment extends Component {
                     url: '/pages/appointment/discount_code/discount_code'
                 })
             }}>
-                <View className="d-title">优惠码</View>
+                <View className="d-title">优惠码 {dt}</View>
                 <AtIcon className="d-icon" value="chevron-right" />
             </View>
             <View className="line" />
@@ -318,7 +323,7 @@ export default class Appointment extends Component {
                 <View className="tip">
                     <AtIcon onClick={this.toggleAgree} size={16} className={`icon ${isAgree ? 'check' : ''}`} value="check-circle" />
                     <View className="doc">
-                        我同意
+                        我同意{this.state.dt}
                         <Text className="content" onClick={() => { }}>《脑健康体检知情同意书》</Text>
                     </View>
                 </View>
@@ -326,7 +331,7 @@ export default class Appointment extends Component {
                     <View className="price">
                         <View>
                             总计：
-                        <Text className="int">2999</Text>
+                            <Text className="int">2999</Text>
                             <Text className="float">.00</Text>
                         </View>
                     </View>
@@ -343,7 +348,7 @@ export default class Appointment extends Component {
     }
     render() {
         const { step } = this.state;
-
+        console.log(this.state);
         return <View>
             <NavBar title="体检预约" />
             <View style={{
