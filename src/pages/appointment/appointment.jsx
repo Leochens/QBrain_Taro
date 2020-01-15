@@ -197,11 +197,12 @@ export default class Appointment extends Component {
         }
 
 
-        let code = '123123'
-        let hospital = '宣武医院'
+        let sale_code = '123123' // 销售代号
+        let discount_code = ''
+        let institution_id = ''
 
         let order = {
-            name, gender, phone, idCard, date, code, hospital,
+            name, gender, phone, idCard, date, sale_code, institution_id, discount_code
         }
 
         console.log('order=>', order)
@@ -237,9 +238,13 @@ export default class Appointment extends Component {
                     //     icon: 'success'
                     // })
 
-                    Taro.navigateTo({
-                        url: '/pages/my_orders/my_orders'
-                    })
+                    //后端返回 微信支付的订单号（由我们自己的商户订单+xxx合成）
+                    //->wx.requ
+                    //->成功 跳转我的订单页
+
+                    // Taro.navigateTo({
+                    //     url: '/pages/my_orders/my_orders'
+                    // })
                 } else {
                     Taro.showToast({
                         title: "提交成功",
