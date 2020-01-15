@@ -127,7 +127,7 @@ export default class DateSelector extends Component {
             return <View
                 data-id={idx}
                 onClick={this.selectDate}
-                className={`item ${idx === index ? 'active' : ''}`} key={idx}>
+                className={`item ${idx === index ? 'active' : ''}`} key={item}>
                 {idx === dates.length - 1
                     ? item
                     : this.getWeekDay(item)

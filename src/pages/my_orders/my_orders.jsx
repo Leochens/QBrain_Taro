@@ -1,7 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
-import { AtIcon, AtTabBar } from 'taro-ui'
+import { AtIcon, AtTabBar, AtButton } from 'taro-ui'
 import NavBar from '../../components/NavBar/NavBar'
 import './my_orders.less'
 import { appConfig } from '../../config'
@@ -158,9 +158,12 @@ export default class MyOrders extends Component {
             />
             <View className="order-list">
                 {this.renderList()}
-
             </View>
 
+
+            <View className="contact">
+                <AtButton className="btn" openType="contact">联系客服</AtButton>
+            </View>
         </View>
     }
 }
