@@ -1,4 +1,4 @@
-import Taro, { Component, getCurrentPages } from '@tarojs/taro'
+import Taro, { Component, getCurrentPages, getApp } from '@tarojs/taro'
 import { View, Button, Text, Label, Input } from '@tarojs/components'
 import NavBar from '../../../components/NavBar/NavBar'
 import { appConfig } from '../../../config'
@@ -57,12 +57,11 @@ export default class DiscountCode extends Component {
                         icon: 'success'
                     })
 
-                    const pages = getCurrentPages();
-                    const prev = pages[pages.length - 2];
-
-                    prev.setData({
+                    const app = Taro.getApp();
+                    app.globalData = {
                         discount: data.discount
-                    })
+                    }
+
                     Taro.navigateBack({
                         delta: 1
                     })

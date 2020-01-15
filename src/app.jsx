@@ -74,6 +74,7 @@ class App extends Component {
   constructor(props) {
     super(props)
     const that = this;
+    this.globalData = {};
     Taro.getSystemInfo({
       success: function (res) {
         console.log(res.model)

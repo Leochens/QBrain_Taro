@@ -21,15 +21,16 @@ export default class Appointment extends Component {
         idCard: '',
         isloading: false,
 
-        selectHospital: '',
+        selectHospital: {},
+        dtPrice: null,
         isAgree: true,
         isAgeOutRange: false,
-        dt: 1,
+        dt: null,
         hospitals: [
             {
                 name: '美年大健康（牡丹园店）',
                 address: "北京市海淀区花园北路35号9号楼健康智谷大厦B1",
-                price: '￥2999',
+                price: 2999,
                 count: 0,
                 work_time: '',
                 phone: ''
@@ -39,7 +40,7 @@ export default class Appointment extends Component {
             {
                 name: '美年大健康（大望路店）',
                 address: "北京市朝阳区西大望路15号外企大厦B座5层",
-                price: '￥2999',
+                price: 2999,
                 count: 20,
                 work_time: '',
                 phone: ''
@@ -104,7 +105,7 @@ export default class Appointment extends Component {
         const { hospitals } = this.state;
         this.setState({
             step: 1,
-            selectHospital: hospitals[id].name
+            selectHospital: hospitals[id]
         })
     }
     renderSelectAddressDate() {
@@ -124,10 +125,16 @@ export default class Appointment extends Component {
         </View>
     }
     componentDidShow() {
-        console.log('LLL', this.state);
+
+
+        const dt = app.globalData.discount;
+        if (!dt) return;
+        app.globalData = {} // 清空缓存
         this.setState({
-            dt: this.state.dt
+            dt,
+            dtPrice: this.state.selectHospital.price - dt
         })
+
     }
     onSubmit = (e) => {
         // console.log(e);
@@ -194,7 +201,7 @@ export default class Appointment extends Component {
         let hospital = '宣武医院'
 
         let order = {
-            name, gender, phone, idCard, date, code, hospital
+            name, gender, phone, idCard, date, code, hospital,
         }
 
         console.log('order=>', order)
@@ -249,7 +256,7 @@ export default class Appointment extends Component {
         })
     }
     renderConfirm() {
-        const { name, gender, phone, idCard, date, isAgeOutRange, selectHospital, isAgree, dt } = this.state;
+        const { name, gender, phone, idCard, date, isAgeOutRange, selectHospital, isAgree, dt, dtPrice } = this.state;
         return <View className="confirm">
 
             <AtForm
@@ -304,7 +311,7 @@ export default class Appointment extends Component {
                 />
             </AtForm>
             <View className="cur-hospital">
-                <View className="h-title">{selectHospital}</View>
+                <View className="h-title">{selectHospital.name}</View>
                 <View className="date">{date}</View>
             </View>
 
@@ -313,7 +320,7 @@ export default class Appointment extends Component {
                     url: '/pages/appointment/discount_code/discount_code'
                 })
             }}>
-                <View className="d-title">优惠码 {dt}</View>
+                <View className="d-title">优惠码 {dt ? '已优惠' + dt + '元' : ''}</View>
                 <AtIcon className="d-icon" value="chevron-right" />
             </View>
             <View className="line" />
@@ -323,17 +330,18 @@ export default class Appointment extends Component {
                 <View className="tip">
                     <AtIcon onClick={this.toggleAgree} size={16} className={`icon ${isAgree ? 'check' : ''}`} value="check-circle" />
                     <View className="doc">
-                        我同意{this.state.dt}
+                        我同意
                         <Text className="content" onClick={() => { }}>《脑健康体检知情同意书》</Text>
                     </View>
                 </View>
                 <View className="order">
                     <View className="price">
-                        <View>
-                            总计：
-                            <Text className="int">2999</Text>
-                            <Text className="float">.00</Text>
+                        总计：
+                            <View className="container">
+                            <View hidden={!dt} className="dt">优惠￥{dt}</View>
+                            <View className="int">{dtPrice ? dtPrice : selectHospital.price}</View>
                         </View>
+                        <Text className="float">.00</Text>
                     </View>
                     <Button disabled={!isAgree} style={{
                         backgroundColor: isAgree ? '' : 'rgba(179,183,186,1);',
