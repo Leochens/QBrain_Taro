@@ -16,15 +16,7 @@ export default class MyOrders extends Component {
         super(props);
         this.state = {
             current: 0,
-            list: [
-                // {
-                //     name: '贾志杰',
-                //     gender: '女',
-                //     time: '2018-03-12',
-                //     hospital: '安贞医院分院',
-                //     number: '订单号：dafagadgah1234'
-                // }
-            ]
+            list: []
         }
     }
 
@@ -85,7 +77,16 @@ export default class MyOrders extends Component {
                 }
             })
     }
-
+    getStatus = status => {
+        let res = ''
+        switch (status) {
+            case 0: res = '待付款'; break;
+            case 1: res = '待服务'; break;
+            case 2: res = '已完成'; break;
+            default: break;
+        }
+        return res;
+    }
     renderList = () => {
         const { current, list } = this.state;
         let res = []
@@ -107,10 +108,10 @@ export default class MyOrders extends Component {
 
         return res.length
             ? res.map((item, idx) => {
-                return <View className="list-item" key={idx}>
+                return <View className="list-item" key={item.id}>
                     <View className="title">
                         <View className="left">关爱大脑健康套餐</View>
-                        <View className="right">待服务</View>
+                        <View className="right">{this.getStatus(item.status)}</View>
                     </View>
 
                     <View className="fields">

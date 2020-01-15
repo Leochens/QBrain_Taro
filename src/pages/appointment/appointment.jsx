@@ -146,7 +146,7 @@ export default class Appointment extends Component {
     }
     onSubmit = (e) => {
         // console.log(e);
-        const { name, gender, phone, idCard, date, dcode } = this.state;
+        const { name, gender, phone, idCard, date, dcode, selectHospital } = this.state;
         if (!name) {
             return Taro.showToast({
                 title: "请填写姓名",
@@ -207,7 +207,7 @@ export default class Appointment extends Component {
 
         let sale_code = '123123' // 销售代号
         let discount_code = dcode;
-        let institution_id = ''
+        let institution_id = selectHospital.id
 
         let order = {
             name, gender, phone, idCard, date, sale_code, institution_id, discount_code
@@ -216,9 +216,7 @@ export default class Appointment extends Component {
         console.log('order=>', order)
 
 
-        this.setState({
-            isloading: true
-        })
+        Taro.showLoading();
 
         let that = this
         Taro.getStorage({ key: 'sessionID' })
@@ -237,10 +235,7 @@ export default class Appointment extends Component {
                 })
             })
             .then((res) => {
-                console.log('????????提交订单了吗')
-                that.setState({
-                    isloading: false
-                })
+                Taro.hideLoading();
                 if (res.data.code == 200) {
                     Taro.showToast({
                         title: "提交成功",
@@ -263,10 +258,18 @@ export default class Appointment extends Component {
                 }
                 else {
                     Taro.showToast({
-                        title: "提交失败"
+                        title: "提交失败",
+                        icon: 'none'
                     })
                 }
-            }).catch(e => console.log(e))
+            }).catch(e => {
+                Taro.hideLoading();
+                Taro.showToast({
+                    title: "请求失败",
+                    icon: 'none'
+                });
+                console.log(e)
+            })
 
 
     }
