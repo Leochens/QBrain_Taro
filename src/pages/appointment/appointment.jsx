@@ -23,30 +23,32 @@ export default class Appointment extends Component {
 
         selectHospital: {},
         dtPrice: null,
+        dt: null,
+        dcode: null,
         isAgree: true,
         isAgeOutRange: false,
-        dt: null,
+
         hospitals: [
-            {
-                name: '美年大健康（牡丹园店）',
-                address: "北京市海淀区花园北路35号9号楼健康智谷大厦B1",
-                price: 2999,
-                count: 0,
-                work_time: '',
-                phone: ''
+            // {
+            //     name: '美年大健康（牡丹园店）',
+            //     address: "北京市海淀区花园北路35号9号楼健康智谷大厦B1",
+            //     price: 2999,
+            //     count: 0,
+            //     work_time: '',
+            //     phone: ''
 
 
-            },
-            {
-                name: '美年大健康（大望路店）',
-                address: "北京市朝阳区西大望路15号外企大厦B座5层",
-                price: 2999,
-                count: 20,
-                work_time: '',
-                phone: ''
+            // },
+            // {
+            //     name: '美年大健康（大望路店）',
+            //     address: "北京市朝阳区西大望路15号外企大厦B座5层",
+            //     price: 2999,
+            //     count: 20,
+            //     work_time: '',
+            //     phone: ''
 
 
-            },
+            // },
         ]
 
     }
@@ -108,6 +110,7 @@ export default class Appointment extends Component {
             selectHospital: hospitals[id]
         })
     }
+
     renderSelectAddressDate() {
         return <View className="select-address-date">
 
@@ -124,21 +127,26 @@ export default class Appointment extends Component {
 
         </View>
     }
+    componentWillUnmount() {
+        app.globalData = {} // 清空缓存
+    }
     componentDidShow() {
 
 
         const dt = app.globalData.discount;
-        if (!dt) return;
+        const dcode = app.globalData.discount_code;
+        if (!dt || !dcode) return;
         app.globalData = {} // 清空缓存
         this.setState({
             dt,
+            dcode,
             dtPrice: this.state.selectHospital.price - dt
         })
 
     }
     onSubmit = (e) => {
         // console.log(e);
-        const { name, gender, phone, idCard, date } = this.state;
+        const { name, gender, phone, idCard, date, dcode } = this.state;
         if (!name) {
             return Taro.showToast({
                 title: "请填写姓名",
@@ -198,7 +206,7 @@ export default class Appointment extends Component {
 
 
         let sale_code = '123123' // 销售代号
-        let discount_code = ''
+        let discount_code = dcode;
         let institution_id = ''
 
         let order = {
@@ -229,14 +237,16 @@ export default class Appointment extends Component {
                 })
             })
             .then((res) => {
+                console.log('????????提交订单了吗')
                 that.setState({
                     isloading: false
                 })
                 if (res.data.code == 200) {
-                    // Taro.showToast({
-                    //     title: "提交成功",
-                    //     icon: 'success'
-                    // })
+                    Taro.showToast({
+                        title: "提交成功",
+                        icon: 'success'
+                    })
+                    console.log(res.data)
 
                     //后端返回 微信支付的订单号（由我们自己的商户订单+xxx合成）
                     //->wx.requ
@@ -245,13 +255,18 @@ export default class Appointment extends Component {
                     // Taro.navigateTo({
                     //     url: '/pages/my_orders/my_orders'
                     // })
-                } else {
+                } if (res.data.code == 400) {
                     Taro.showToast({
-                        title: "提交成功",
-                        icon: 'error'
+                        title: "提交数据错误",
+                        icon: 'none'
                     })
                 }
-            })
+                else {
+                    Taro.showToast({
+                        title: "提交失败"
+                    })
+                }
+            }).catch(e => console.log(e))
 
 
     }

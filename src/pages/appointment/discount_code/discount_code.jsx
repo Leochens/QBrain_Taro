@@ -3,7 +3,7 @@ import { View, Button, Text, Label, Input } from '@tarojs/components'
 import NavBar from '../../../components/NavBar/NavBar'
 import { appConfig } from '../../../config'
 import './discount_code.less'
-import { AtIcon, AtInput } from 'taro-ui'
+import { AtIcon, AtInput, AtButton } from 'taro-ui'
 
 export default class DiscountCode extends Component {
     config = {
@@ -26,7 +26,6 @@ export default class DiscountCode extends Component {
     }
     handleConfirm = e => {
         const { value } = this.state;
-        const { onGetDiscount } = this.props;
         console.log("优惠码提交", value)
 
         Taro.getStorage({ key: 'sessionID' })
@@ -59,7 +58,8 @@ export default class DiscountCode extends Component {
 
                     const app = Taro.getApp();
                     app.globalData = {
-                        discount: data.discount
+                        discount: data.discount,
+                        discount_code: value
                     }
 
                     Taro.navigateBack({
@@ -90,6 +90,7 @@ export default class DiscountCode extends Component {
                     onConfirm={this.handleConfirm}
                 />
 
+                <AtButton className="confirm-btn" onClick={this.handleConfirm}>提交</AtButton>
             </View>
         </View>
     }
