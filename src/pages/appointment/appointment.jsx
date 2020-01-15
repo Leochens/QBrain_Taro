@@ -15,10 +15,10 @@ export default class Appointment extends Component {
         step: 0,
         statusBarHeight: app.state.statusBarHeight,
 
-        name: '',
+        name: '张鹤麟',
         gender: null,
-        phone: '',
-        idCard: '',
+        phone: '18332518328',
+        idCard: '371622199604083019',
         isloading: false,
 
         selectHospital: {},
@@ -236,7 +236,34 @@ export default class Appointment extends Component {
             })
             .then((res) => {
                 Taro.hideLoading();
+                console.log(res);
                 if (res.data.code == 200) {
+                    const payargs = res.data.data
+
+                    Taro.requestPayment({
+                        timeStamp: payargs.timeStamp,
+                        nonceStr: payargs.nonceStr,
+                        package: payargs.package,
+                        signType: payargs.signType,
+                        paySign: payargs.paySign,
+                        success(res) {
+                            console.log(res);
+                            Taro.showToast({
+                                title: "支付成功",
+                                icon: 'success'
+                            })
+                        },
+                        fail(res) {
+                            Taro.showToast({
+                                title: "取消支付",
+                                icon: 'none'
+                            })
+                            Taro.navigateTo({
+                                url:'/pages/my_orders/my_orders'
+                            })
+                            console.log(res);
+                        }
+                    })
                     Taro.showToast({
                         title: "提交成功",
                         icon: 'success'
@@ -256,12 +283,7 @@ export default class Appointment extends Component {
                         icon: 'none'
                     })
                 }
-                else {
-                    Taro.showToast({
-                        title: "提交失败",
-                        icon: 'none'
-                    })
-                }
+
             }).catch(e => {
                 Taro.hideLoading();
                 Taro.showToast({
