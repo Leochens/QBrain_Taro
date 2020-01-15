@@ -190,7 +190,7 @@ export default class Prod extends Component {
                     <View className="price">
                         <View>
 
-                            <Text className="int">2999</Text>
+                            <Text className="int">￥1500</Text>
                             <Text className="float">.00</Text>
                         </View>
                     </View>

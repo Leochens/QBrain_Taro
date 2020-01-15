@@ -37,6 +37,9 @@ const pay = (order, endpoint, repay = false) => {
                             title: "支付成功",
                             icon: 'success'
                         })
+                        Taro.navigateTo({
+                            url:'/pages/prod/prod'
+                        })
                     },
                     fail(res) {
                         Taro.showToast({

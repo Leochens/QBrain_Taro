@@ -16,10 +16,10 @@ export default class Appointment extends Component {
         step: 0,
         statusBarHeight: app.state.statusBarHeight,
 
-        name: '张鹤麟',
+        name: '',
         gender: null,
-        phone: '18332518328',
-        idCard: '371622199604083019',
+        phone: '',
+        idCard: '',
         isloading: false,
 
         selectHospital: {},
