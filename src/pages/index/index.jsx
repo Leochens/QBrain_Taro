@@ -33,7 +33,12 @@ class Index extends Component {
   async componentDidMount() {
     const sale_user_id = this.$router.params.sale_id;
     const sessionID = Taro.getStorageSync('sessionID');
+    console.log('sale_user_id', sale_user_id);
+    Taro.showModal({
+      content: JSON.stringify(this.$router.params)
+    })
     if (sale_user_id) {
+
       await login(); // 肯定是从别的页面进来的 保险起见 再登录
       console.log("登录成功,开始进行销售绑定")
 

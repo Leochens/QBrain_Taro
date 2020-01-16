@@ -36,11 +36,11 @@ export default function login() {
                 const SID = res.data.SID
                 const u_id = res.data.u_id
                 const phone_number = res.data.phone_number
-                Taro.setStorageSync({ key: 'phone_number', data: phone_number })
+                Taro.setStorageSync('phone_number', phone_number)
                 console.log('setStorage->phone_number');
-                Taro.setStorageSync({ key: 'sessionID', data: SID })
+                Taro.setStorageSync('sessionID', SID)
                 console.log('setStorage->sessionID');
-                Taro.setStorageSync({ key: 'uid', data: u_id })
+                Taro.setStorageSync('uid', u_id)
                 console.log('setStorage->u_id');
 
                 Taro.hideLoading();
