@@ -45,7 +45,8 @@ class Test extends Component {
         <Image src={indexPng} className="indexPng" />
 
         <View style={{
-          margin: '30px auto'
+          position: 'fixed',
+          bottom: 0
         }}>
           <Image src={entrancePng} class="entrance" onClick={this.gotoAppointment} />
         </View>

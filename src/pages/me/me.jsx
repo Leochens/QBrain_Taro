@@ -1,10 +1,10 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Button, Text, Label } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
-import avatar from '../../images/avatar.png'
+import avatar from '../../images/avatar.svg'
 
 import './me.less'
-import { AtIcon } from 'taro-ui'
+import { AtIcon, AtAvatar } from 'taro-ui'
 
 // @connect(({ user }) => ({
 //     user
@@ -27,7 +27,7 @@ export default class Me extends Component {
             phoneNumber: '************'
         }
     }
-    
+
     componentWillMount() {
         Taro.getStorage({ key: 'phone_number' })
             .then(res => {
@@ -50,7 +50,8 @@ export default class Me extends Component {
                 lineHeight: this.state.navHeight + 'px'
             }}>我的</View>
             <View className="user">
-                <Image src={this.props.user.avatarUrl} className="avatar" />
+                {/* <Image src={this.props.user.avatarUrl} className="avatar" /> */}
+                <AtAvatar circle image={avatar}></AtAvatar>
                 <View className="info">
                     <View className="phone">{this.state.phoneNumber}</View>
                     {/*<View className="edit" onClick={() => {
