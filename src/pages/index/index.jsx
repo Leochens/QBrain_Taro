@@ -34,9 +34,6 @@ class Index extends Component {
     const sale_user_id = this.$router.params.sale_id;
     const sessionID = Taro.getStorageSync('sessionID');
     console.log('sale_user_id', sale_user_id);
-    Taro.showModal({
-      content: JSON.stringify(this.$router.params)
-    })
     if (sale_user_id) {
 
       await login(); // 肯定是从别的页面进来的 保险起见 再登录
