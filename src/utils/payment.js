@@ -40,7 +40,7 @@ const pay = (order, endpoint, repay = false) => {
                             title: "支付成功",
                             icon: 'success'
                         })
-                        Taro.navigateTo({
+                        Taro.switchTab({
                             url: '/pages/prod/prod'
                         })
                     },
