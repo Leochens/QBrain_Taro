@@ -115,10 +115,10 @@ export default class Appointment extends Component {
     renderSelectAddressDate() {
         return <View className="select-address-date">
 
-            <View className="city">
+            {/* <View className="city">
                 <View>北京市</View>
                 <AtIcon className="icon" value="chevron-right" />
-            </View>
+            </View> */}
             <View className="select-date">
                 <DateSelector onChangeDate={this.handleSelectDate} />
             </View>

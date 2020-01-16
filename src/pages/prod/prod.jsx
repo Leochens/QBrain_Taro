@@ -120,10 +120,10 @@ export default class Prod extends Component {
                         </View>
                     </View>
                 </View>
-                <View className="have-a-look" onClick={this.toggleShowModal}>
+                {/* <View className="have-a-look" onClick={this.toggleShowModal}>
                     <View className="des">查看可预约分院和机构</View>
                     <AtIcon value="chevron-right icon" />
-                </View>
+                </View> */}
                 <View className="introBlock">
                     <Image src={introPng} class="introPng" />
                 </View>
@@ -198,7 +198,8 @@ export default class Prod extends Component {
                 </View>
             </View>
 
-            <Modal showModal={this.state.showModal} hide={this.toggleShowModal} />
+            {/* <Modal showModal={this.state.showModal} hide={this.toggleShowModal} /> */}
+
         </View>
     }
 }

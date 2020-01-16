@@ -26,7 +26,6 @@ export default class Me extends Component {
             navMarginTop: app.state.nav.top,
             phoneNumber: '************'
         }
-
     }
     
     componentWillMount() {
