@@ -68,6 +68,7 @@ export default class MyOrders extends Component {
                     let list = res.data.data
                     list.forEach(e => {
                         e.date = new Date(e.time).format("yyyy-MM-dd");
+                        e.createdAt = new Date(e.createdAt).format("yyyy-MM-dd hh:mm:ss")
                         e.number = '订单号：' + e.id
                     })
 
@@ -130,11 +131,11 @@ export default class MyOrders extends Component {
                     </View>
                     <View className="fields">
                         <View className="name">下单时间</View>
-                        <View className="value">{item.createAt}</View>
+                        <View className="value">{item.createdAt}</View>
                     </View>
                     <View className="fields">
                         <View className="name">体检时间</View>
-                        <View className="value">{item.time}</View>
+                        <View className="value">{item.date}</View>
                     </View>
                     <View className="fields">
                         <View className="name">体检机构</View>
