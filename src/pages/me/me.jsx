@@ -28,7 +28,7 @@ export default class Me extends Component {
         }
 
     }
-
+    
     componentWillMount() {
         Taro.getStorage({ key: 'phone_number' })
             .then(res => {
