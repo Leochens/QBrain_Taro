@@ -15,15 +15,43 @@ export default class Prod extends Component {
     }
     onShareAppMessage() {
 
+        const u_id = Taro.getStorageSync('uid');
+
+        return {
+            path: '/pages/prod/prod?sale_id=' + u_id
+        }
+    }
+    componentDidShow(e) {
+        console.log('show', e);
     }
     constructor(props) {
         super(props);
         const app = Taro.getApp();
+        console.log('prod', this)
         this.state = {
             statusBarHeight: app.state.statusBarHeight,
             navHeight: app.state.nav.height,
             navMarginTop: app.state.nav.top,
             showModal: false
+        }
+        const sale_user_id = this.$router.params.sale_id;
+        const sessionID = Taro.getStorageSync('sessionID');
+        if (sale_user_id) {
+            Taro.request({
+                url: appConfig.apiBaseUrl + '/sale',
+                method: "POST",
+                data: {
+                    sale_user_id
+                },
+                header: {
+                    'content-type': 'application/json', // 默认值
+                    cookie: sessionID
+                },
+                success: function (res) {
+                    console.log(res.data);
+                },
+                fail: e => console.log(e)
+            })
         }
     }
 

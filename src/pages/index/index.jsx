@@ -8,16 +8,47 @@ import entrancePng from '../../images/entrance.png'
 import backgroundPng from '../../images/background.png'
 import indexPng from './index.png';
 import './index.less'
-class Test extends Component {
+import { appConfig } from '../../config'
+
+class Index extends Component {
 
   config = {
     navigationBarTitleText: '测试页'
+  }
+  constructor(props) {
+    super(props);
+    const sale_user_id = this.$router.params.sale_id;
+    const sessionID = Taro.getStorageSync('sessionID');
+    if (sale_user_id) {
+      Taro.request({
+        url: appConfig.apiBaseUrl + '/sale',
+        method: "POST",
+        data: {
+          sale_user_id
+        },
+        header: {
+          'content-type': 'application/json', // 默认值
+          cookie: sessionID
+        },
+        success: function (res) {
+          console.log(res.data);
+        },
+        fail: e => console.log(e)
+      })
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     console.log(this.props, nextProps)
   }
+  onShareAppMessage() {
 
+    const u_id = Taro.getStorageSync('uid');
+
+    return {
+      path: '/pages/index/index?sale_id=' + u_id
+    }
+  }
   componentWillUnmount() { }
 
   componentDidShow() { }
@@ -92,5 +123,5 @@ class Test extends Component {
   }
 }
 
-export default Test
+export default Index
 

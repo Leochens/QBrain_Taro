@@ -140,6 +140,7 @@ class App extends Component {
         const phone_number = res.data.phone_number
         Taro.setStorage({ key: 'phone_number', data: phone_number }).then(res => console.log('setStorage->phone_number'))
         Taro.setStorage({ key: 'sessionID', data: SID }).then(res => console.log('setStorage->sessionID'))
+        Taro.setStorage({ key: 'uid', data: u_id }).then(res => console.log('setStorage->u_id'))
         Taro.hideLoading();
 
       })
