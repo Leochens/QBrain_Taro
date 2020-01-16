@@ -7,6 +7,8 @@ import { AtIcon, AtList, AtListItem } from 'taro-ui';
 import Modal from '../../components/Modal/Modal';
 import introPng from '../../images/introduction.png'
 import { appConfig } from '../../config'
+import login from '../../utils/login';
+
 export default class Prod extends Component {
     config = {
         navigationBarTitleText: '产品',
@@ -34,9 +36,15 @@ export default class Prod extends Component {
             navMarginTop: app.state.nav.top,
             showModal: false
         }
+
+    }
+    async componentDidMount() {
+
         const sale_user_id = this.$router.params.sale_id;
         const sessionID = Taro.getStorageSync('sessionID');
         if (sale_user_id) {
+            await login();
+            console.log("登录成功,开始进行销售绑定")
             Taro.request({
                 url: appConfig.apiBaseUrl + '/sale',
                 method: "POST",

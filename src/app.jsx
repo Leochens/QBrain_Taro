@@ -5,7 +5,7 @@ import Test from './pages/test/test'
 import Index from './pages/index/index'
 import configStore from './store'
 import { appConfig } from './config'
-
+import login from './utils/login'
 import 'animate.css'
 import './app.less'
 // import 'taro-ui/dist/style/index.scss' 
@@ -90,75 +90,10 @@ class App extends Component {
         }
       }
     })
+    login();
 
   }
 
-  componentWillMount() {
-    // Taro.getSetting({
-    //     success(res){
-    //         if (res.authSetting['scope.userInfo']) {
-    //             return res
-    //         }else{
-    //             return false    
-    //         }
-    //     }
-    // })
-    // .then(res=>{
-    //     console.log('Taro.getSetting=>',res)
-    //     return 
-    console.log('url=>', appConfig.apiBaseUrl + '/auth')
-
-    Taro.showLoading({
-      title: "登录中...",
-      mask: true
-    })
-    Taro.login({
-      success(res) {
-        return res
-      }
-    })
-      .then(res => {
-        console.log('Taro.login=>', res)
-        if (res.code) {
-          return Taro.request({
-            url: appConfig.apiBaseUrl + '/auth',
-            method: 'POST',
-            data: {
-              code: res.code
-            }
-          })
-        } else {
-          throw new Error('登录失败！' + res.errMsg)
-        }
-      })
-      .then(res => {
-        console.log('Taro.request=>', res)
-        if (res.statusCode != 200) throw new Error("后端认证失败")
-        //获得u_id 和 SID
-        const SID = res.data.SID
-        const u_id = res.data.u_id
-        const phone_number = res.data.phone_number
-        Taro.setStorage({ key: 'phone_number', data: phone_number }).then(res => console.log('setStorage->phone_number'))
-        Taro.setStorage({ key: 'sessionID', data: SID }).then(res => console.log('setStorage->sessionID'))
-        Taro.setStorage({ key: 'uid', data: u_id }).then(res => console.log('setStorage->u_id'))
-        Taro.hideLoading();
-
-      })
-      .catch(err => {
-        // Taro.hideLoading();
-        Taro.showModal({
-          title: "提示",
-          content: "登录出现错误，请联系管理员。",
-          success: function (res) {
-            Taro.switchTab({
-              url: '/pages/pages/index'
-            })
-          }
-        })
-        console.log(err)
-      }).finally(() => {
-      })
-  }
 
   componentDidShow() { }
 

@@ -9,7 +9,7 @@ import backgroundPng from '../../images/background.png'
 import indexPng from './index.png';
 import './index.less'
 import { appConfig } from '../../config'
-
+import login from '../../utils/login';
 class Index extends Component {
 
   config = {
@@ -17,9 +17,26 @@ class Index extends Component {
   }
   constructor(props) {
     super(props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(this.props, nextProps)
+  }
+  onShareAppMessage() {
+
+    const u_id = Taro.getStorageSync('uid');
+
+    return {
+      path: '/pages/index/index?sale_id=' + u_id
+    }
+  }
+  async componentDidMount() {
     const sale_user_id = this.$router.params.sale_id;
     const sessionID = Taro.getStorageSync('sessionID');
     if (sale_user_id) {
+      await login(); // 肯定是从别的页面进来的 保险起见 再登录
+      console.log("登录成功,开始进行销售绑定")
+
       Taro.request({
         url: appConfig.apiBaseUrl + '/sale',
         method: "POST",
@@ -36,22 +53,9 @@ class Index extends Component {
         fail: e => console.log(e)
       })
     }
+    console.log('index componentDidMount ready')
+
   }
-
-  componentWillReceiveProps(nextProps) {
-    console.log(this.props, nextProps)
-  }
-  onShareAppMessage() {
-
-    const u_id = Taro.getStorageSync('uid');
-
-    return {
-      path: '/pages/index/index?sale_id=' + u_id
-    }
-  }
-  componentWillUnmount() { }
-
-  componentDidShow() { }
   componentDidHide() { }
   gotoAppointment() {
     Taro.switchTab({
@@ -69,6 +73,7 @@ class Index extends Component {
     })
   }
   render() {
+
     return (
       <View className='at-col'>
 
