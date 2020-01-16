@@ -51,8 +51,6 @@ class App extends Component {
         text: "首页",
         iconPath: 'images/tab/index.png',
         selectedIconPath: 'images/tab/index_active.png',
-
-
       }, {
         pagePath: "pages/prod/prod",
         text: "产品",
@@ -110,7 +108,10 @@ class App extends Component {
     //     return 
     console.log('url=>', appConfig.apiBaseUrl + '/auth')
 
-
+    Taro.showLoading({
+      title: "登录中...",
+      mask: true
+    })
     Taro.login({
       success(res) {
         return res
@@ -132,15 +133,29 @@ class App extends Component {
       })
       .then(res => {
         console.log('Taro.request=>', res)
+        if (res.statusCode != 200) throw new Error("后端认证失败")
         //获得u_id 和 SID
         const SID = res.data.SID
         const u_id = res.data.u_id
         const phone_number = res.data.phone_number
         Taro.setStorage({ key: 'phone_number', data: phone_number }).then(res => console.log('setStorage->phone_number'))
         Taro.setStorage({ key: 'sessionID', data: SID }).then(res => console.log('setStorage->sessionID'))
+        Taro.hideLoading();
+
       })
       .catch(err => {
+        // Taro.hideLoading();
+        Taro.showModal({
+          title: "提示",
+          content: "登录出现错误，请联系管理员。",
+          success: function (res) {
+            Taro.switchTab({
+              url: '/pages/pages/index'
+            })
+          }
+        })
         console.log(err)
+      }).finally(() => {
       })
   }
 

@@ -1,7 +1,10 @@
 import Taro, { Component } from '@tarojs/taro'
 import { appConfig } from '../config'
 const pay = (order, endpoint, repay = false) => {
-    Taro.showLoading();
+    Taro.showLoading({
+        title: '请稍后',
+        mask: true
+    });
     Taro.getStorage({ key: 'sessionID' })
         .then(res => {
             let sessionID = res.data
@@ -38,7 +41,7 @@ const pay = (order, endpoint, repay = false) => {
                             icon: 'success'
                         })
                         Taro.navigateTo({
-                            url:'/pages/prod/prod'
+                            url: '/pages/prod/prod'
                         })
                     },
                     fail(res) {

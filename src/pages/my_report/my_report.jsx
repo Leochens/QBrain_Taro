@@ -121,7 +121,7 @@ export default class MyReport extends Component {
 
         return list.length
             ? list.map((item, index) => {
-                return <View className="item" key={index}>
+                return <View className="item" key={item.id}>
                     <View className="left">
                         <View className="name">{item.name}</View>
                         <View className="gender">{item.gender==0 ? '男' : '女'}</View>
