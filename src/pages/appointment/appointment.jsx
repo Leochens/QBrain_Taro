@@ -305,14 +305,14 @@ export default class Appointment extends Component {
                     <View className="price">
                         总计：
                             <View className="container">
-                            <View hidden={!dt} className="dt">优惠￥{dt}</View>
-                            <View className="int">{dtPrice ? dtPrice : selectHospital.price}</View>
-                        </View>
-                        <Text className="float">.00</Text>
+                                <View hidden={!dt} className="dt">优惠￥{dt}</View>
+                                <Text className="int">{dtPrice ? dtPrice : selectHospital.price}</Text>
+                                <Text className="float">.00</Text>
+                            </View>
                     </View>
                     <Button disabled={!isAgree} style={{
                         backgroundColor: isAgree ? '' : 'rgba(179,183,186,1);',
-                        color: isAgree ? '' : '#999',
+                        color: isAgree ? '' : '#fff',
                     }} className="btn" onClick={this.onSubmit}>立即支付</Button>
                 </View>
             </View>

@@ -137,15 +137,18 @@ export default class DateSelector extends Component {
     }
     render() {
 
-        return <View>
+        return <View className="ds">
             <View className="wrap">
                 {this.renderList()}
             </View>
             <GenModal showModal={this.state.showCalendar} hide={this.hide}>
+                <View className="tips">请左右滑动选择日期</View>
                 <AtCalendar
+                    
                     style={{
                         width: '100vw'
                     }}
+                    hideArrow={true}
                     onSelectDate={this.handelSelectDate}
                     minDate={this.getNextThreeDate()[0]} maxDate={this.getNextDate(new Date(), 90)} currentDate={this.getNextThreeDate()[0]} />
             </GenModal>

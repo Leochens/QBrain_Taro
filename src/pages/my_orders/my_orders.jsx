@@ -123,7 +123,7 @@ export default class MyOrders extends Component {
                     <View className="fields">
                         <View className="name">订单编号</View>
                         <View className="value">{item.id}</View>
-                        <View className="copy">复制</View>
+                        {/* <View className="copy">复制</View> */}
                     </View>
                     <View className="fields">
                         <View className="name">体检人</View>

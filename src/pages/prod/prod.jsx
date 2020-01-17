@@ -165,7 +165,7 @@ export default class Prod extends Component {
                     <Image src={introPng} class="introPng" />
                 </View>
 
-                <View className="brain-des">
+                {/* <View className="brain-des">
                     <View className="title">
                         大脑分区功能介绍
                     </View>
@@ -222,7 +222,7 @@ export default class Prod extends Component {
                         </View>
                     </View>
 
-                </View>
+                </View> */}
                 <View className="order">
                     <View className="price">
                         <View>
