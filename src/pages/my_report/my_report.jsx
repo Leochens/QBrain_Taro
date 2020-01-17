@@ -15,7 +15,7 @@ export default class MyReport extends Component {
 
     checkReport = (report_url) => (e) => {
         this.setState({
-            isloading:true
+            isloading: true
         })
 
         let that = this
@@ -26,7 +26,7 @@ export default class MyReport extends Component {
             success: function (res) {
                 var filePath = res.tempFilePath
                 that.setState({
-                    isloading:false
+                    isloading: false
                 })
                 Taro.openDocument({
                     filePath: filePath,
@@ -57,64 +57,74 @@ export default class MyReport extends Component {
                 //     number: '订单号：dafagadgah1234'
                 // }
             ],
-            isloading:false
+            isloading: false
         }
 
-        
+
 
 
     }
 
 
-    componentWillMount(){
-        Date.prototype.format = function(fmt) { 
-            var o = { 
-                "M+" : this.getMonth()+1,                 //月份 
-                "d+" : this.getDate(),                    //日 
-                "h+" : this.getHours(),                   //小时 
-                "m+" : this.getMinutes(),                 //分 
-                "s+" : this.getSeconds(),                 //秒 
-                "q+" : Math.floor((this.getMonth()+3)/3), //季度 
-                "S"  : this.getMilliseconds()             //毫秒 
-            }; 
-            if(/(y+)/.test(fmt)) {
-                    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+    componentWillMount() {
+        Date.prototype.format = function (fmt) {
+            var o = {
+                "M+": this.getMonth() + 1,                 //月份 
+                "d+": this.getDate(),                    //日 
+                "h+": this.getHours(),                   //小时 
+                "m+": this.getMinutes(),                 //分 
+                "s+": this.getSeconds(),                 //秒 
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+                "S": this.getMilliseconds()             //毫秒 
+            };
+            if (/(y+)/.test(fmt)) {
+                fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
             }
-             for(var k in o) {
-                if(new RegExp("("+ k +")").test(fmt)){
-                     fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
-                 }
-             }
-            return fmt; 
+            for (var k in o) {
+                if (new RegExp("(" + k + ")").test(fmt)) {
+                    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+                }
+            }
+            return fmt;
         }
-
-        Taro.getStorage({ key: 'sessionID'})
-        .then(res =>{
-            let sessionID = res.data
-            return Taro.request({
-                url: appConfig.apiBaseUrl+'/orders',
-                method:'POST',
-                header: {
-                    'content-type': 'application/json', // 默认值
-                    "cookie": sessionID
-                },
+        Taro.showLoading({
+            title: "请求中...",
+            mask: true
+        })
+        Taro.getStorage({ key: 'sessionID' })
+            .then(res => {
+                let sessionID = res.data
+                return Taro.request({
+                    url: appConfig.apiBaseUrl + '/orders',
+                    method: 'POST',
+                    header: {
+                        'content-type': 'application/json', // 默认值
+                        "cookie": sessionID
+                    },
+                })
             })
-        })
-        .then((res)=>{
-            if(res.data.code==200){
-                console.log('Taro.request->orders=>',res.data)
-                let list = res.data.data
-                list.forEach(e=>{
-                    e.date = new Date(e.time).format("yyyy-MM-dd");
-                    e.number = '订单号：'+e.id
-                })
+            .then((res) => {
+                if (res.data.code == 200) {
+                    console.log('Taro.request->orders=>', res.data)
+                    let list = res.data.data
+                    list.forEach(e => {
+                        e.date = new Date(e.time).format("yyyy-MM-dd");
+                        e.number = '订单号：' + e.id
+                    })
 
-                this.setState({
-                    list:list.filter(e=>e.status==2)
-                })
+                    this.setState({
+                        list: list.filter(e => e.status == 2)
+                    })
+                    Taro.hideLoading()
 
-            }
-        })
+                }
+            }).catch(e => {
+                console.log(e);
+                Taro.showModal({
+                    title: '提示',
+                    content: "请求出错，请检查网络连接或联系管理员"
+                })
+            })
     }
     renderList = () => {
         const { list } = this.state;
@@ -124,7 +134,7 @@ export default class MyReport extends Component {
                 return <View className="item" key={item.id}>
                     <View className="left">
                         <View className="name">{item.name}</View>
-                        <View className="gender">{item.gender==0 ? '男' : '女'}</View>
+                        <View className="gender">{item.gender == 0 ? '男' : '女'}</View>
                     </View>
                     <View className="middle">
                         <View className="time">{item.date}</View>

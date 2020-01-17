@@ -49,7 +49,10 @@ export default class MyOrders extends Component {
             }
             return fmt;
         }
-
+        Taro.showLoading({
+            title: "请求中...",
+            mask: true
+        })
         Taro.getStorage({ key: 'sessionID' })
             .then(res => {
                 let sessionID = res.data
@@ -75,8 +78,14 @@ export default class MyOrders extends Component {
                     this.setState({
                         list
                     })
-
+                    Taro.hideLoading();
                 }
+            }).catch(e => {
+                console.log(e);
+                Taro.showModal({
+                    title: '提示',
+                    content: "请求出错，请检查网络连接或联系管理员"
+                })
             })
     }
     getStatus = status => {
