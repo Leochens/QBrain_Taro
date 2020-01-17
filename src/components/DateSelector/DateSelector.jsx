@@ -142,7 +142,7 @@ export default class DateSelector extends Component {
                 {this.renderList()}
             </View>
             <GenModal showModal={this.state.showCalendar} hide={this.hide}>
-                <View className="tips">请左右滑动选择日期</View>
+                <View className="tips">请左右滑动选择月份</View>
                 <AtCalendar
                     
                     style={{
