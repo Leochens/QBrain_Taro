@@ -298,7 +298,11 @@ export default class Appointment extends Component {
                     <AtIcon onClick={this.toggleAgree} size={16} className={`icon ${isAgree ? 'check' : ''}`} value="check-circle" />
                     <View className="doc">
                         我同意
-                        <Text className="content" onClick={() => { }}>《脑健康体检知情同意书》</Text>
+                        <Text className="content" onClick={() => {
+                            Taro.navigateTo({
+                                url:'/pages/appointment/disclaimer/disclaimer'
+                            })
+                         }}>《脑健康体检知情同意书》</Text>
                     </View>
                 </View>
                 <View className="order">
