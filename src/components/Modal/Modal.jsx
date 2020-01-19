@@ -1,28 +1,97 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import './Modal.less'
+import { appConfig } from '../../config'
 // const app = Taro.getApp();
 export default class Modal extends Component {
 
+    state = {
+        cities: [],
+        hospitals: [],
+        curCity: ''
+    }
+    componentDidMount() {
+        const d = new Date();
+        const date = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+        Taro.getStorage({ key: 'sessionID' })
+            .then(res => {
+                let sessionID = res.data
+                return Taro.request({
+                    url: appConfig.apiBaseUrl + '/institutions',
+                    method: 'POST',
+                    data: {
+                        date
+                    },
+                    header: {
+                        'content-type': 'application/json', // 默认值
+                        "cookie": sessionID
+                    },
+                })
+            })
+            .then((res) => {
+                if (res.data.code == 200) {
+                    console.log('Taro.request->ins=>', res.data)
+                    let list = res.data.data;
+                    let cities = new Set();
+                    for (let i = 0; i < list.length; i++) {
+                        cities.add(list[i].city);
+                    }
+                    cities = Array.from(cities);
+
+                    this.setState({
+                        hospitals: list,
+                        cities,
+                        curCity: cities[0]
+                    })
+
+                }
+            })
+    }
+    handelSelectCity = (e) => {
+        const { id } = e.target.dataset;
+        const { cities } = this.state
+        this.setState({
+            curCity: cities[id]
+        })
+    }
+    renderCity = () => {
+        const { cities, curCity } = this.state;
+
+        return cities.map((item, idx) => <View
+            key={item}
+            className={`city ${item === curCity ? 'selected' : ''}`}
+            data-id={idx}
+            onClick={this.handelSelectCity}>{item}</View>)
+    }
+    renderList = () => {
+        const { hospitals, curCity } = this.state;
+
+        const hps = hospitals.filter(item => item.city === curCity);
+        return hps.map(item => <View key={item.name} className="item">
+            <View className="name">{item.name}</View>
+            <View className="address">{item.address}</View>
+        </View>
+        )
+    }
     render() {
         const { showModal } = this.props;
 
         return <View hidden={!showModal} className="mask" onClick={this.props.hide}>
-            <View className="modal">
+            <View className="modal" onClick={e => e.stopPropagation()}>
                 <View className="title">
                     可用城市
                 </View>
                 <View className="content">
-                    <View className="city">北京市</View>
-                    <View className="list">
-                        <View className="item">
-                            <View className="name">美年大健康（牡丹园店）</View>
-                            <View className="address">北京市海淀区花园北路35号9号楼健康智谷大厦B1</View>
-                        </View>
-                        <View className="item">
-                            <View className="name">美年大健康（大望路店）</View>
-                            <View className="address">北京市朝阳区西大望路15号外企大厦B座5层</View>
-                        </View>
+                    <View style={{
+                        flex: 1
+                    }}>
+
+                        {this.renderCity()}
+                    </View>
+                    <View style={{
+                        flex: 3
+                    }} className="list">
+                        {this.renderList()}
                     </View>
                 </View>
             </View>

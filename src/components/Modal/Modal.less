@@ -15,6 +15,7 @@
     right           : 0;
     padding         : 20px 0 50px 0;
     background-color: #fff;
+    z-index         : 100;
 
     .title {
         font-size : 46px;
@@ -22,10 +23,14 @@
         margin    : 20px;
     }
 
+    .selected {
+        color: #247ed2;
+    }
+
     .content {
-        display        : flex;
-        justify-content: space-around;
-        text-align     : center;
+        display           : flex;
+        justify-content   : space-around;
+        // text-align     : center;
 
         .city {
             margin   : 20px;
@@ -34,12 +39,24 @@
 
         .list {
             .item {
-                margin: 20px;
+                margin  : 20px;
+                position: relative;
 
                 .name {
                     font-size  : 28px;
                     font-weight: 500;
 
+                }
+                .name::before {
+                    position        : absolute;
+                    content         : ' ';
+                    top: 20px;
+                    width           : 10px;
+                    height          : 10px;
+                    border-radius   : 50%;
+                    background-color: #247ed2;
+                    left            : -20px;
+    
                 }
 
                 .address {
@@ -47,6 +64,8 @@
                     font-size: 24px;
                 }
             }
+
+
         }
     }
 

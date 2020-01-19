@@ -34,16 +34,34 @@ export default class Prod extends Component {
             statusBarHeight: app.state.statusBarHeight,
             navHeight: app.state.nav.height,
             navMarginTop: app.state.nav.top,
-            showModal: false
-        }
+            showModal: false,
+            price: '----'
 
+        }
     }
+
     async componentDidMount() {
         const sale_user_id = this.$router.params.sale_id;
         const sessionID = Taro.getStorageSync('sessionID');
         console.log('sale_user_id', sale_user_id);
+        const that = this;
+        Taro.request({
+            url: appConfig.apiBaseUrl + '/price',
+            method: "POST",
+            header: {
+                'content-type': 'application/json', // 默认值
+                cookie: sessionID
+            },
+            success: function (res) {
+                console.log(res.data);
+                if (res.statusCode == 200)
+                    that.setState({
+                        price: res.data.data
+                    })
+            },
+            fail: e => console.log(e)
+        })
         if (sale_user_id) {
-
             await login();
             console.log("登录成功,开始进行销售绑定")
             Taro.request({
@@ -157,10 +175,10 @@ export default class Prod extends Component {
                         </View>
                     </View>
                 </View>
-                {/* <View className="have-a-look" onClick={this.toggleShowModal}>
+                <View className="have-a-look" onClick={this.toggleShowModal}>
                     <View className="des">查看可预约分院和机构</View>
                     <AtIcon value="chevron-right icon" />
-                </View> */}
+                </View>
                 <View className="introBlock">
                     <Image src={introPng} class="introPng" />
                 </View>
@@ -227,7 +245,7 @@ export default class Prod extends Component {
                     <View className="price">
                         <View>
 
-                            <Text className="int">￥1500</Text>
+                            <Text className="int">￥{this.state.price}</Text>
                             <Text className="float">.00</Text>
                         </View>
                     </View>
@@ -235,7 +253,7 @@ export default class Prod extends Component {
                 </View>
             </View>
 
-            {/* <Modal showModal={this.state.showModal} hide={this.toggleShowModal} /> */}
+            <Modal showModal={this.state.showModal} hide={this.toggleShowModal} />
 
         </View>
     }

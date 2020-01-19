@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Picker, Button } from '@tarojs/components'
-import { AtSteps, AtForm, AtInput, AtButton, AtRadio, AtIcon } from 'taro-ui'
+import { AtSteps, AtForm, AtInput, AtButton, AtRadio, AtIcon,Picker } from 'taro-ui'
 import NavBar from '../../components/NavBar/NavBar'
 import './Appointment.less'
 import DateSelector from '../../components/DateSelector/DateSelector';
@@ -28,33 +28,50 @@ export default class Appointment extends Component {
         dcode: null,
         isAgree: true,
         isAgeOutRange: false,
+        cities: [],
+        hospitals: [],
+        curCity: ''
 
-        hospitals: [
-            // {
-            //     name: '美年大健康（牡丹园店）',
-            //     address: "北京市海淀区花园北路35号9号楼健康智谷大厦B1",
-            //     price: 2999,
-            //     count: 0,
-            //     work_time: '',
-            //     phone: ''
-
-
-            // },
-            // {
-            //     name: '美年大健康（大望路店）',
-            //     address: "北京市朝阳区西大望路15号外企大厦B座5层",
-            //     price: 2999,
-            //     count: 20,
-            //     work_time: '',
-            //     phone: ''
-
-
-            // },
-        ]
 
     }
     componentDidMount() {
+        const d = new Date();
+        const date = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+        Taro.getStorage({ key: 'sessionID' })
+            .then(res => {
+                let sessionID = res.data
+                return Taro.request({
+                    url: appConfig.apiBaseUrl + '/institutions',
+                    method: 'POST',
+                    data: {
+                        date
+                    },
+                    header: {
+                        'content-type': 'application/json', // 默认值
+                        "cookie": sessionID
+                    },
+                })
+            })
+            .then((res) => {
+                if (res.data.code == 200) {
+                    console.log('Taro.request->ins=>', res.data)
+                    let list = res.data.data;
+                    let cities = new Set();
+                    for (let i = 0; i < list.length; i++) {
+                        cities.add(list[i].city);
+                    }
+                    cities = Array.from(cities);
+                    const curCity = cities[0];
+                    const hospitals = list.filter(item => item.city === curCity);
 
+                    this.setState({
+                        hospitals,
+                        cities,
+                        curCity
+                    })
+
+                }
+            })
     }
     renderHospitals = () => {
         const { hospitals } = this.state;
@@ -115,16 +132,21 @@ export default class Appointment extends Component {
     renderSelectAddressDate() {
         return <View className="select-address-date">
 
-            {/* <View className="city">
+            <View className="city">
                 <View>北京市</View>
                 <AtIcon className="icon" value="chevron-right" />
-            </View> */}
+            </View>
             <View className="select-date">
                 <DateSelector onChangeDate={this.handleSelectDate} />
             </View>
             <View className="hospital">
                 {this.renderHospitals()}
             </View>
+            <Picker mode='selector' range={this.state.selector} onChange={this.onChange}>
+                <View className='picker'>
+                    当前选择：{this.state.selectorChecked}
+                </View>
+            </Picker>
 
         </View>
     }
@@ -300,19 +322,19 @@ export default class Appointment extends Component {
                         我同意
                         <Text className="content" onClick={() => {
                             Taro.navigateTo({
-                                url:'/pages/appointment/disclaimer/disclaimer'
+                                url: '/pages/appointment/disclaimer/disclaimer'
                             })
-                         }}>《脑健康体检知情同意书》</Text>
+                        }}>《脑健康体检知情同意书》</Text>
                     </View>
                 </View>
                 <View className="order">
                     <View className="price">
                         总计：
                             <View className="container">
-                                <View hidden={!dt} className="dt">优惠￥{dt}</View>
-                                <Text className="int">{dtPrice ? dtPrice : selectHospital.price}</Text>
-                                <Text className="float">.00</Text>
-                            </View>
+                            <View hidden={!dt} className="dt">优惠￥{dt}</View>
+                            <Text className="int">{dtPrice ? dtPrice : selectHospital.price}</Text>
+                            <Text className="float">.00</Text>
+                        </View>
                     </View>
                     <Button disabled={!isAgree} style={{
                         backgroundColor: isAgree ? '' : 'rgba(179,183,186,1);',
