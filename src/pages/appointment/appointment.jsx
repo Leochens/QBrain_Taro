@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Picker, Button } from '@tarojs/components'
-import { AtSteps, AtForm, AtInput, AtButton, AtRadio, AtIcon,Picker } from 'taro-ui'
+import { AtSteps, AtForm, AtInput, AtButton, AtRadio, AtIcon } from 'taro-ui'
 import NavBar from '../../components/NavBar/NavBar'
 import './Appointment.less'
 import DateSelector from '../../components/DateSelector/DateSelector';
@@ -128,8 +128,14 @@ export default class Appointment extends Component {
             selectHospital: hospitals[id]
         })
     }
-
+    handelCityChange = e => {
+        const { cities } = this.state;
+        this.setState({
+            curCity: cities[e.detail.value]
+        })
+    }
     renderSelectAddressDate() {
+        const { curCity, cities } = this.state;
         return <View className="select-address-date">
 
             <View className="city">
@@ -142,9 +148,9 @@ export default class Appointment extends Component {
             <View className="hospital">
                 {this.renderHospitals()}
             </View>
-            <Picker mode='selector' range={this.state.selector} onChange={this.onChange}>
+            <Picker mode='selector' range={cities} onChange={this.handelCityChange}>
                 <View className='picker'>
-                    当前选择：{this.state.selectorChecked}
+                    {curCity}
                 </View>
             </Picker>
 
