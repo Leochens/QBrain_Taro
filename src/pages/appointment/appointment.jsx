@@ -81,7 +81,7 @@ export default class Appointment extends Component {
                 <View className="address">{item.address}</View>
                 <View className="price">￥{item.price} <Text className="full-ap" hidden={item.count}>约满</Text></View>
             </View>
-            <View className={`select ${item.count ? '' : 'disabled'}`} data-id={idx} onClick={item.count ? e => this.handleSelectHospital(e) : () => { }}>
+            <View className={`select ${item.count ? '' : 'disabled'}`} data-hospital={item} onClick={item.count ? e => this.handleSelectHospital(e) : () => { }}>
                 选择
         </View>
         </View>)
@@ -119,12 +119,11 @@ export default class Appointment extends Component {
         })
     }
     handleSelectHospital(e) {
-        const { id } = e.target.dataset;
-        console.log(id);
-        const { hospitals } = this.state;
+        const { hospital } = e.target.dataset;
+        console.log(hospital);
         this.setState({
             step: 1,
-            selectHospital: hospitals[id]
+            selectHospital: hospital
         })
     }
     handelCityChange = e => {
