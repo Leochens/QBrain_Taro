@@ -62,10 +62,8 @@ export default class Appointment extends Component {
                     }
                     cities = Array.from(cities);
                     const curCity = cities[0];
-                    const hospitals = list.filter(item => item.city === curCity);
 
                     this.setState({
-                        hospitals,
                         cities,
                         curCity
                     })
@@ -74,9 +72,10 @@ export default class Appointment extends Component {
             })
     }
     renderHospitals = () => {
-        const { hospitals } = this.state;
+        const { hospitals, curCity } = this.state;
+        const list = hospitals.filter(item => item.city === curCity);
 
-        return hospitals.map((item, idx) => <View className="item">
+        return list.map((item, idx) => <View className="item">
             <View className="detail">
                 <View className="name">{item.name}</View>
                 <View className="address">{item.address}</View>
@@ -137,22 +136,21 @@ export default class Appointment extends Component {
     renderSelectAddressDate() {
         const { curCity, cities } = this.state;
         return <View className="select-address-date">
+            <Picker mode='selector' range={cities} onChange={this.handelCityChange}>
 
-            <View className="city">
-                <View>北京市</View>
-                <AtIcon className="icon" value="chevron-right" />
-            </View>
+                <View className="city">
+                    <View>{curCity}</View>
+                    <AtIcon className="icon" value="chevron-right" />
+                </View>
+            </Picker>
+
             <View className="select-date">
                 <DateSelector onChangeDate={this.handleSelectDate} />
             </View>
             <View className="hospital">
                 {this.renderHospitals()}
             </View>
-            <Picker mode='selector' range={cities} onChange={this.handelCityChange}>
-                <View className='picker'>
-                    {curCity}
-                </View>
-            </Picker>
+
 
         </View>
     }
